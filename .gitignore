@@ -6,6 +6,9 @@
 public/uploads/*
 !public/uploads/.gitkeep
 
+# Documento de avance pesado (68 MB): se mantiene local, no se sube a GitHub
+docs/SportVibes AVANCE.pdf
+
 # Logs y temporales
 *.log
 *.tmp
