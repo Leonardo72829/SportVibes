@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 10:05
+> **Última actualización:** 2026-11-26 17:00
 
 ---
 
@@ -71,8 +71,10 @@
 | Servidor | **VPS Linux**, document root en `public/` | Definido |
 | Control de versiones | **Git + GitHub**, rama `main` | Definido |
 | Servidor web | Nginx (plantilla en `deploy/nginx.conf.example`) | Propuesto |
-| Pasarela de pago | No definida (decisión SP05) | `Pendiente de confirmar` |
-| Servicio de correo | No definido (RF-14, RF-22) | `Pendiente de confirmar` |
+| Pasarela de pago | Simulada (`app/core/PagoSimulado.php`), sin datos de tarjeta | Definido 2026-11-26 |
+| Servicio de correo | PHPMailer v7.2 por SMTP real; copia de cada aviso en `notificaciones` | Definido 2026-11-26 |
+| Base de datos local | SQLite (PDO) para desarrollo, con migración exportable a MySQL | Definido 2026-11-26 |
+| Gestor de dependencias | Composer (solo PHPMailer; `vendor/` no se versiona) | Definido 2026-11-26 |
 
 **Resolución de la contradicción detectada:** el SRS menciona "aplicación móvil" en el propósito (1.1) y "sistema web" en RNF-06. El equipo eligió **plataforma web**; la app móvil nativa queda descartada por ahora. La interfaz debe funcionar en navegadores de escritorio y adaptarse a móvil.
 
@@ -95,9 +97,9 @@ SportVibes/                    # raíz Git (rama main)
 ├── app/                       # PHP del servidor, FUERA del document root
 │   ├── config/config.php      # carga de .env y constantes
 │   ├── core/Database.php      # conexión PDO a MySQL
-│   ├── controllers/           # controladores (pendientes)
-│   └── views/                 # plantillas HTML (inicio.php, 404.php)
-├── database/                  # schema.sql y seed.sql
+│   ├── controllers/           # 11 controladores (RF-01 a RF-24)
+│   └── views/                 # layout + 25 plantillas HTML
+├── database/                  # schema.sql, seed.sql, versión SQLite y migrador
 ├── deploy/                    # deploy.sh y nginx.conf.example
 ├── docs/                      # SRS, diagramas, investigación y avance
 ├── public/                    # DOCUMENT ROOT del VPS
@@ -106,6 +108,7 @@ SportVibes/                    # raíz Git (rama main)
 │   ├── js/app.js
 │   ├── assets/img/
 │   └── uploads/               # ignorado por Git salvo .gitkeep
+├── composer.json / composer.lock
 ├── .env.example               # plantilla sin secretos
 ├── .gitignore
 ├── README.md                  # instalación, GitHub y despliegue
@@ -137,28 +140,32 @@ Derivados de los RF del SRS; usar como mapa inicial de la arquitectura:
 9. **Soporte** — consultas sobre pedidos propios y respuestas (RF-20 a RF-22).
 10. **Reportes** — reporte mensual de ventas y utilidad (RF-15).
 
-Las tablas iniciales ya están en `database/schema.sql`. Los controladores y vistas de estos módulos están pendientes de implementar.
+Los 10 módulos ya están implementados en `app/controllers/` con sus vistas en `app/views/`. El enrutador (`public/index.php`) expone todas las rutas; la tabla de rutas es la fuente de verdad de las URL. El flujo transaccional valida existencias antes de confirmar, descuenta stock al aprobar el pago (SP08), registra el historial de estados y notifica por correo y en la bandeja interna.
 
 ---
 
 ## 6. Decisiones pendientes (resumen de SP01–SP12)
 
-| ID | Tema | A quién |
+| ID | Tema | Estado |
 |---|---|---|
-| SP01 | Facultades adicionales del administrador | Administrador |
-| SP02 | Quién registra artículos además de inventario | Administrador e inventario |
-| SP03 | Tallas disponibles por prenda | Inventario |
-| SP04 | Límites de personalización | Cliente |
-| SP05 | Pasarela de pago y métodos aceptados | Administrador |
-| SP06 | Tiempos de entrega | Administrador e inventario |
-| SP07 | Aviso al cliente al enviar (propuesta: correo con guía) | Administrador |
-| SP08 | Descuento automático de existencias (propuesta: al confirmar pago) | Inventario |
-| SP09 | Quién cambia el estado del pedido (propuesta: logística) | Administrador y logística |
-| SP10 | Costo de envío y forma de cobro | Administrador |
-| SP11 | Canales y tiempo de respuesta de soporte | Administrador y soporte |
-| SP12 | Paquetería, contratación y pago | Administrador y logística |
+| SP01 | Facultades adicionales del administrador | Implementado: reporte, ligas, categorías y cuentas |
+| SP02 | Quién registra artículos además de inventario | Implementado: inventario y administrador |
+| SP03 | Tallas disponibles por prenda | Resuelto: CH, M, G, XG, XXG |
+| SP04 | Límites de personalización | Resuelto: ≤ 12 caracteres, dorsal ≤ 2 dígitos, filtro de palabras ofensivas |
+| SP05 | Pasarela de pago y métodos aceptados | Resuelto: pasarela simulada, sin credenciales reales |
+| SP06 | Tiempos de entrega | Pendiente (solo se informa el estado y la guía) |
+| SP07 | Aviso al cliente al enviar | Aceptado: correo con número de guía |
+| SP08 | Descuento automático de existencias | Aceptado: al aprobar el pago |
+| SP09 | Quién cambia el estado del pedido | Aceptado: solo logística |
+| SP10 | Costo de envío y forma de cobro | Resuelto: monto fijo de $99 MXN, sumado al total |
+| SP11 | Canales y tiempo de respuesta de soporte | Pendiente (respuesta por correo; sin SLA definido) |
+| SP12 | Paquetería, contratación y pago | Pendiente (solo se registra número de guía) |
 
 **Resuelta el 2026-11-26:** modalidad web vs. móvil → plataforma web (HTML/CSS/JS + PHP en VPS Linux).
+
+**Resuelta el 2026-11-26:** facturación CFDI del diagrama de actividades antiguo → no incluida; el SRS actualizado no la contempla.
+
+**Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` → excluido de Git y del historial; conservado solo en local.
 
 ---
 

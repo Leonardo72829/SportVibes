@@ -9,6 +9,13 @@ public/uploads/*
 # Documento de avance pesado (68 MB): se mantiene local, no se sube a GitHub
 docs/SportVibes AVANCE.pdf
 
+# Base de datos local y exportaciones (pueden contener datos de clientes)
+database/*.sqlite
+database/*.sqlite-journal
+database/*.sqlite-wal
+database/*.sqlite-shm
+database/migracion_datos.sql
+
 # Logs y temporales
 *.log
 *.tmp

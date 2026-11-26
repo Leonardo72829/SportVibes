@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 10:23
+> **Última actualización:** 2026-11-26 17:00
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -17,7 +17,7 @@
 | Idioma del proyecto | Español |
 | Stack | HTML, CSS y JavaScript puro / PHP / MySQL / VPS Linux / Git y GitHub |
 | PHP local para pruebas | PHP 8.4.28 NTS x64, instalación portátil en `C:\Users\sanch\AppData\Local\Programs\PHP\php-8.4.28` |
-| Estado actual | Documentación y modelado completados; repositorio organizado; sintaxis PHP y rutas básicas verificadas; PDF de avance excluido de Git; módulos funcionales pendientes |
+| Estado actual | Sistema web completo implementado (24 RF) con SQLite local y MySQL para producción; sintaxis y flujos HTTP verificados; PDF de avance excluido de Git; pendiente el despliegue en VPS y credenciales SMTP reales |
 
 ---
 
@@ -46,6 +46,13 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 | 2026-11-26 (10:20) | Instalación portátil de PHP 8.4.28 y configuración de extensiones | `php.exe`, `php.ini` |
 | 2026-11-26 (10:21) | Pruebas: 5 archivos `.php` sin errores de sintaxis; `/` y `/health` responden 200; ruta inexistente responde 404 | Servidor integrado de PHP |
 | 2026-11-26 (10:21) | Exclusión de `docs/SportVibes AVANCE.pdf` de Git y limpieza del historial | `.gitignore`, historial de Git |
+| 2026-11-26 (16:10) | Confirmación de decisiones pendientes (SQLite + migración, pago simulado, SMTP real, SP07-09, envío fijo, tallas y filtro, alcance total, sin CFDI) | Usuario / `claude.md` |
+| 2026-11-26 (16:15) | Habilitación de extensiones SQLite/Zip e instalación de Composer y PHPMailer | `php.ini`, `composer.json`, `vendor/` |
+| 2026-11-26 (16:20) | Implementación del núcleo: configuración dual, PDO, sesiones, roles, vistas, validación, correo y pago | `app/config/`, `app/core/` |
+| 2026-11-26 (16:40) | Implementación de esquemas, semillas y exportador SQLite → MySQL | `database/` |
+| 2026-11-26 (16:50) | Implementación de 11 controladores, 25 vistas, enrutador, CSS y JS | `app/controllers/`, `app/views/`, `public/` |
+| 2026-11-26 (16:55) | Verificación: 47 archivos PHP sin errores de sintaxis y flujos HTTP principales correctos | Servidor integrado de PHP |
+| 2026-11-26 (17:00) | Pruebas de casos límite y corrección del código de respuesta CSRF/roles | `app/core/helpers.php` |
 
 ---
 
@@ -72,20 +79,27 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 |---|---|
 | `.gitignore` | Excluye `.env`, el PDF de avance, `public/uploads/*`, logs, dependencias y archivos de IDE |
 | `.gitattributes` | Fuerza LF en `.sh`, `.php`, `.css`, `.js`, `.sql` y `.md`; marca PDF/PNG como binarios |
-| `.env.example` | Plantilla de configuración sin secretos |
-| `README.md` | Estructura, instalación local, subida a GitHub y despliegue en VPS |
-| `app/config/config.php` | Carga de `.env`, constantes de app y base de datos, zona horaria y modo debug |
-| `app/core/Database.php` | Conexión PDO a MySQL con sentencias preparadas |
-| `app/controllers/.gitkeep` | Marcador para futuros controladores |
-| `app/views/inicio.php` | Página de inicio HTML (hero, catálogo por liga, cómo funciona, pie) |
-| `app/views/404.php` | Página de error 404 |
-| `public/index.php` | Controlador frontal: rutas `/` y `/health`, resto 404 |
-| `public/css/estilos.css` | Estilos responsive con variables CSS, sin frameworks |
-| `public/js/app.js` | Menú móvil, cierre de navegación y año del pie (JavaScript puro) |
-| `public/assets/img/.gitkeep` | Marcador de imágenes estáticas |
-| `public/uploads/.gitkeep` | Marcador de subidas (el resto se ignora) |
-| `database/schema.sql` | 16 tablas InnoDB: roles, usuarios, ligas, categorías, tallas, productos, inventario, direcciones, carrito, pedidos, detalle, pagos, historial de estados, consultas, respuestas y notificaciones |
-| `database/seed.sql` | Datos base: 5 roles, 8 ligas, 8 categorías y 5 tallas (sin usuarios ni contraseñas) |
+| `.env.example` / `.env` | Plantilla sin secretos y configuración local (excluida de Git) |
+| `README.md` | Instalación local con SQLite, migración, SMTP, GitHub y despliegue en VPS |
+| `composer.json` / `composer.lock` | Dependencia PHPMailer v7.2 (`vendor/` excluido de Git) |
+| `app/config/config.php` | Carga de `.env`, constantes, zona horaria, sesión y autoload |
+| `app/core/Database.php` | PDO dual: SQLite en local, MySQL en producción; sentencias preparadas |
+| `app/core/helpers.php` | Escape, URL, redirección con códigos de estado, flashes, CSRF, formato |
+| `app/core/Auth.php` | Sesión, usuario actual y control de acceso por rol |
+| `app/core/View.php` | Renderizado de plantillas con layout compartido |
+| `app/core/Validator.php` | Validación de textos, correos, números, CP y filtro de palabras ofensivas |
+| `app/core/Mailer.php` | Avisos en tabla `notificaciones` y envío SMTP con PHPMailer |
+| `app/core/PagoSimulado.php` | Pasarela simulada con aprobación/rechazo y referencia |
+| `app/controllers/` | 11 controladores: cuentas, catálogo, carrito, pedidos, consultas, notificaciones, inventario, logística, soporte, administración y salud |
+| `app/views/` | Layout + 25 vistas (inicio, catálogo, producto, auth, carrito, checkout, pedidos, consultas, avisos, inventario, logística, soporte, reportes y errores) |
+| `public/index.php` | Controlador frontal con 38 rutas, manejo de errores y cabeceras de seguridad |
+| `public/css/estilos.css` | CSS responsive con variables, sin frameworks |
+| `public/js/app.js` | Menú móvil, confirmaciones y año del pie (JavaScript puro) |
+| `public/assets/img/.gitkeep` / `public/uploads/.gitkeep` | Marcadores de carpetas |
+| `database/schema.sql` / `seed.sql` | MySQL: 16 tablas InnoDB y datos base con cuentas de prueba |
+| `database/schema.sqlite.sql` / `seed.sqlite.sql` | SQLite local: misma estructura y datos de demostración |
+| `database/inicializar.php` | Crea y siembra la base SQLite local |
+| `database/migrar_sqlite_a_mysql.php` | Genera `migracion_datos.sql` con `INSERT IGNORE` para MySQL |
 | `deploy/deploy.sh` | `git pull --ff-only`, verificación de `.env`, permisos y recarga de Nginx |
 | `deploy/nginx.conf.example` | Virtual host con document root `public/` y reglas para PHP-FPM |
 | `claude.md` | Memoria persistente para agentes de IA |
@@ -98,8 +112,9 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 | PHP | 8.4.28 (cli, NTS, Visual C++ 2022 x64), descargado de `windows.php.net` |
 | Ubicación | `C:\Users\sanch\AppData\Local\Programs\PHP\php-8.4.28` |
 | Verificación | SHA-256 `c1f9280588b7b6ad7b518969022f0b0175f106fab9d0639ad0e4ce7cd47ac1ed` (coincide con el oficial) |
-| Extensiones activas | curl, fileinfo, mbstring, mysqli, openssl, PDO, pdo_mysql |
-| PATH | Se añadió la carpeta de PHP al PATH del usuario actual |
+| Extensiones activas | curl, fileinfo, mbstring, mysqli, openssl, PDO, pdo_mysql, sqlite3, pdo_sqlite, zip |
+| PATH | Se añadió la carpeta de PHP al PATH del usuario actual (requiere ventana nueva) |
+| Composer | 2.11.3 como `composer.phar` en la carpeta temporal; PHPMailer v7.2 instalado en `vendor/` |
 
 ---
 
@@ -111,32 +126,36 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 
 **Requerimientos no funcionales destacados:** catálogo ≤ 3 s al 95 % con 100 usuarios concurrentes; HTTPS y contraseñas cifradas; control de acceso por rol; sin números de tarjeta almacenados; primera compra en ≤ 10 minutos; compatibilidad con Chrome, Edge, Firefox y Safari; diseño sin scroll horizontal desde 1366 × 768 px; disponibilidad ≥ 99 %; ningún pedido confirmado se pierde; código modular y documentado.
 
-**Implementado y verificado:** página de inicio, estilos responsive, interacciones básicas en JS, controlador frontal con ruta de salud, configuración PDO, esquema y datos base de MySQL, scripts de despliegue, sintaxis PHP sin errores y rutas HTTP `/`, `/health` y 404 probadas.
+**Implementado y verificado:** los 24 requerimientos funcionales en 11 controladores y 25 vistas, enrutador con 38 rutas, estilos responsive, JavaScript puro, base SQLite local con datos demo, exportador a MySQL, PHPMailer, 47 archivos PHP sin errores de sintaxis y pruebas HTTP de todos los flujos y roles.
 
-**Pendiente:** registro/login, roles, catálogo dinámico, carrito, pedidos, pago, logística, soporte, correos y reportes.
+**Pendiente:** URL del repositorio en GitHub para configurar `origin` y hacer push; credenciales SMTP reales para activar el envío de correos; instalación y configuración de MySQL en el VPS (o importar la migración desde SQLite).
 
 ---
 
-## 5. Decisiones pendientes
+## 5. Decisiones y estado de los puntos pendientes
 
-| ID | Pregunta | Responsable |
+| ID | Tema | Estado al 2026-11-26 |
 |---|---|---|
-| SP01 | ¿Qué más podrá hacer el administrador aparte del reporte mensual? | Administrador |
-| SP02 | ¿Solo inventario registra artículos o también el administrador? | Administrador e inventario |
-| SP03 | ¿Qué tallas habrá en cada prenda? | Inventario |
-| SP04 | ¿Qué se puede personalizar y cuántos caracteres/dígitos se permiten? | Cliente |
-| SP05 | ¿Qué pasarela de pago y qué métodos se aceptarán? | Administrador |
-| SP06 | ¿Cuánto tardarán en llegar los pedidos? | Administrador e inventario |
-| SP07 | ¿Cómo se avisa el envío? Propuesta: correo con número de guía (RF-14, RF-19) | Administrador |
-| SP08 | ¿Quién descuenta existencias? Propuesta: automático al confirmar pago (RF-17) | Inventario |
-| SP09 | ¿Quién cambia el estado del pedido? Propuesta: logística (RF-19) | Administrador y logística |
-| SP10 | ¿Cuánto cuesta el envío y se cobra aparte? | Administrador |
-| SP11 | ¿Qué canales usa soporte y en cuánto tiempo responde? | Administrador y soporte |
-| SP12 | ¿Qué paquetería se usa, quién la contrata y quién la paga? | Administrador y logística |
+| SP01 | Facultades adicionales del administrador | Implementado: reporte mensual, ligas, categorías y cuentas del personal |
+| SP02 | Quién registra artículos | Implementado: inventario y administrador |
+| SP03 | Tallas disponibles por prenda | Resuelto: CH, M, G, XG, XXG |
+| SP04 | Límites de personalización | Resuelto: ≤ 12 caracteres, dorsal ≤ 2 dígitos, filtro de palabras ofensivas |
+| SP05 | Pasarela de pago y métodos aceptados | Resuelto: pasarela simulada (aprobado/rechazado), sin datos de tarjeta |
+| SP06 | Tiempos de entrega | Pendiente: solo se reporta el estado y la guía, sin fecha estimada |
+| SP07 | Aviso al cliente al enviar | Aceptado e implementado: correo y aviso interno con número de guía |
+| SP08 | Descuento automático de existencias | Aceptado e implementado: al aprobar el pago, dentro de una transacción |
+| SP09 | Quién cambia el estado del pedido | Aceptado e implementado: solo el rol logística |
+| SP10 | Costo de envío y forma de cobro | Resuelto: `$99 MXN` fijos, sumados al total del pedido |
+| SP11 | Canales y tiempo de respuesta de soporte | Parcial: respuestas por correo; sin SLA definido |
+| SP12 | Paquetería, contratación y pago | Pendiente: solo se registra el número de guía |
 
 **Resuelta el 2026-11-26:** la contradicción entre "aplicación móvil" (SRS 1.1) y "sistema web" (RNF-06) se resolvió eligiendo **plataforma web** con HTML/CSS/JS puro, PHP y MySQL en VPS Linux. La app móvil nativa queda descartada por ahora.
 
 **Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` no se versiona; se conserva únicamente en local para consulta.
+
+**Resuelta el 2026-11-26:** el alcance confirmado incluye los 24 RF. La facturación CFDI que aparece en el diagrama de actividades antiguo queda **excluida** porque el SRS actualizado no la contempla.
+
+**Resuelta el 2026-11-26:** para desarrollar sin MySQL local se usa SQLite con el mismo modelo de datos; `database/migrar_sqlite_a_mysql.php` genera el SQL de importación para MySQL en el VPS.
 
 ---
 
@@ -233,3 +252,54 @@ Formato para nuevas entradas:
 - **Artefactos:** `.gitignore`, historial de Git, `docs/SportVibes AVANCE.pdf` (solo local)
 - **Responsable:** Agente de IA
 - **Acción derivada:** Hacer push de `main` a GitHub; el PDF no viajará con el repositorio.
+
+### 2026-11-26 16:10 — Confirmación de decisiones funcionales
+- **Tipo:** decisión
+- **Descripción:** El usuario confirmó: usar SQLite en local y migrar después a MySQL en el VPS; pago simulado (sin guardar tarjetas); SMTP real con PHPMailer; aceptar SP07 (aviso al enviar con guía), SP08 (descuento de stock al aprobar pago) y SP09 (solo logística cambia estados); envío fijo de `$99 MXN`; tallas CH/M/G/XG/XXG con personalización limitada; implementar los 24 RF; y excluir la facturación CFDI del diagrama antiguo.
+- **Artefactos:** `claude.md`, `bitacora.md`
+- **Responsable:** Usuario
+- **Acción derivada:** Implementar el sistema completo con esas reglas.
+
+### 2026-11-26 16:15 — Dependencias y extensiones locales
+- **Tipo:** avance
+- **Descripción:** Se habilitaron `pdo_sqlite`, `sqlite3` y `zip` en el `php.ini` portátil, se descargó Composer 2.11.3 como `composer.phar` en la carpeta temporal y se instaló `phpmailer/phpmailer v7.2.0`. `vendor/` queda excluido de Git; el VPS instalará las dependencias con `composer install --no-dev`.
+- **Artefactos:** `php.ini`, `composer.json`, `composer.lock`, `vendor/`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Documentar Composer en README y bitácora.
+
+### 2026-11-26 16:20 a 16:50 — Implementación del sistema web (24 RF)
+- **Tipo:** entrega
+- **Descripción:** Se creó el núcleo (`config.php`, `Database.php` dual PDO, `Auth.php`, `View.php`, `Validator.php`, `Mailer.php`, `PagoSimulado.php` y helpers), los esquemas SQLite/MySQL con sus semillas, el inicializador y el exportador a MySQL; los 11 controladores y las 25 vistas con layout compartido; el enrutador frontal con 38 rutas GET/POST y manejo de errores; y el CSS/JS puro responsive. Se aplicaron CSRF, control de acceso por rol y transacciones para stock, pagos y estados.
+- **Artefactos:** `app/`, `database/`, `public/`, `composer.*`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Verificar sintaxis y ejecutar pruebas HTTP.
+
+### 2026-11-26 16:55 a 17:00 — Verificación y corrección de respuestas HTTP
+- **Tipo:** verificación / incidencia resuelta
+- **Descripción:** `php -l` pasó en los 47 archivos PHP. Con el servidor integrado se probaron inicio, health, catálogo, detalle, login, carrito con personalización, checkout, pedido aprobado y rechazado, consultas, notificaciones, y las áreas de administrador, inventario, logística y soporte (todos HTTP 200/302 según corresponda; 404 para ruta inexistente). Se detectó que `redirect()` sobrescribía los códigos 403 y 419 con 302; se corrigió la condición para conservar cualquier código 3xx-5xx. Tras el arreglo, CSRF inválido devuelve 419 y un cliente que intenta acceder a `/admin` recibe 403. También se comprobó que el nombre ofensivo se descarta, que el rechazo de pago cancela el pedido sin vaciar el carrito y que el stock se descuenta solo al aprobar.
+- **Artefactos:** `app/core/helpers.php`, scripts temporales de prueba en `C:\Users\sanch\AppData\Local\Temp\opencode\`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Actualizar documentación, hacer commit y solicitar remote de GitHub y credenciales SMTP.
+
+### 2026-11-26 17:00 — Registro cronológico de actividades de la sesión (parte 3)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 27 | 16:10 | Confirmar decisiones SP05, SP07-SP10 y alcance total con el usuario | Reglas aplicadas al código |
+| 28 | 16:15 | Activar `pdo_sqlite`, `sqlite3` y `zip`; instalar PHPMailer con Composer | Dependencias listas |
+| 29 | 16:20 | Crear configuración dual, helpers, Auth, View, Validator, Mailer y PagoSimulado | 8 archivos en `app/config` y `app/core` |
+| 30 | 16:35 | Crear base SQLite con 16 tablas y datos demo; verificar `inicializar.php` | Base local operativa |
+| 31 | 16:40 | Ajustar `schema.sql`/`seed.sql` a MySQL y crear `migrar_sqlite_a_mysql.php` | Migración exportable |
+| 32 | 16:45 | Crear 11 controladores y 25 vistas | RF-01 a RF-24 cubiertos |
+| 33 | 16:50 | Reescribir `public/index.php`, `estilos.css` y `app.js` | Router, diseño y menú móvil |
+| 34 | 16:55 | Ejecutar `php -l` en todo el proyecto | 47 archivos, 0 errores |
+| 35 | 16:57 | Probar flujos HTTP con servidor integrado | Catálogo, carrito, pago, roles y 404 correctos |
+| 36 | 16:59 | Probar casos límite; detectar sobrescritura de códigos 403/419 | Incidencia identificada |
+| 37 | 17:00 | Corregir `redirect()` y repetir pruebas | 419 y 403 correctos; stock y carrito coherentes |
+| 38 | 17:00 | Actualizar `README.md`, `claude.md` y `bitacora.md` | Documentación alineada |
+| 39 | 17:02 | Hacer opcional el autoload de PHPMailer cuando no hay `vendor/` | La app funciona sin Composer mientras SMTP esté vacío |
+| 40 | 17:05 | `php -l` final, prueba de `/health` sin `vendor/` y commit de la implementación | 47 archivos sin errores; health 200; 60 archivos versionados; árbol limpio |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Hacer commit de la implementación; esperar la URL de GitHub para configurar `origin` y las credenciales SMTP para activar los correos.

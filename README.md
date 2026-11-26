@@ -1,77 +1,117 @@
 # SportVibes
 
-Plataforma web de comercio electrónico para la venta de ropa deportiva y personalizada de fútbol y Esports. El cliente puede consultar el catálogo por liga, elegir talla, personalizar nombre y dorsal, y realizar su pedido con pago en línea.
+Plataforma **web** de comercio electrónico para la venta de ropa deportiva y personalizada de fútbol y Esports (Liga MX, Premier League, Bundesliga, Ligue 1, Serie A, Brasil A, Kings League y Esports).
+
+El cliente consulta el catálogo, elige talla, personaliza nombre y dorsal, agrega artículos al carrito, captura su dirección, paga y consulta el seguimiento de su pedido.
 
 ## Stack tecnológico
 
 | Capa | Tecnología |
 |---|---|
-| Frontend | HTML, CSS y JavaScript puro (sin frameworks ni librerías) |
-| Backend | PHP |
-| Base de datos | MySQL (InnoDB, `utf8mb4`) |
-| Servidor | VPS Linux con document root en `public/` |
-| Control de versiones | Git / GitHub |
+| Frontend | HTML semántico, CSS y JavaScript puro (sin frameworks ni librerías) |
+| Backend | PHP 8.4 con PDO y sentencias preparadas |
+| Base de datos | SQLite en desarrollo local · **MySQL (InnoDB, `utf8mb4`) en producción** |
+| Correo | PHPMailer vía SMTP real (los avisos también se guardan en la base de datos) |
+| Pago | Pasarela simulada (no guarda datos de tarjeta) |
+| Servidor | VPS Linux, document root en `public/` |
+| Control de versiones | Git / GitHub, rama `main` |
 
 ## Estructura del repositorio
 
 ```
 SportVibes/
-├── app/                    # Código PHP del servidor (fuera del document root)
-│   ├── config/
-│   │   └── config.php      # Carga de .env y constantes
-│   ├── core/
-│   │   └── Database.php    # Conexión PDO a MySQL
-│   ├── controllers/        # Controladores (preparado para RF-01 en adelante)
-│   └── views/              # Plantillas HTML
-│       ├── inicio.php
-│       └── 404.php
+├── app/
+│   ├── config/config.php       # Carga de .env, constantes y autoload
+│   ├── core/                   # Database, Auth, View, Validator, Mailer, PagoSimulado, helpers
+│   ├── controllers/            # 11 controladores (cuentas, catálogo, carrito, pedidos, etc.)
+│   └── views/                  # Plantillas HTML con layout compartido
 ├── database/
-│   ├── schema.sql          # Estructura de tablas
-│   └── seed.sql            # Datos base (roles, ligas, tallas)
+│   ├── schema.sql              # Estructura MySQL (producción)
+│   ├── seed.sql                # Datos base MySQL
+│   ├── schema.sqlite.sql       # Estructura SQLite (desarrollo)
+│   ├── seed.sqlite.sql         # Datos base SQLite con cuentas de prueba
+│   ├── inicializar.php         # Crea y siembra la base SQLite local
+│   └── migrar_sqlite_a_mysql.php # Exporta los datos a MySQL
 ├── deploy/
-│   ├── deploy.sh           # Actualización desde GitHub en el VPS
-│   └── nginx.conf.example  # Virtual host de ejemplo
-├── docs/                   # SRS, diagramas e investigación
-├── public/                 # Document root del servidor web
-│   ├── index.php           # Controlador frontal / enrutador
+│   ├── deploy.sh               # git pull --ff-only + permisos + recarga de Nginx
+│   └── nginx.conf.example      # Virtual host de ejemplo
+├── docs/                       # SRS, diagramas, investigación y avance
+├── public/                     # DOCUMENT ROOT
+│   ├── index.php               # Controlador frontal / enrutador
 │   ├── css/estilos.css
 │   ├── js/app.js
 │   ├── assets/img/
-│   └── uploads/            # Archivos subidos (excluidos de Git)
-├── .env.example            # Plantilla de configuración (sin secretos)
-├── .gitignore
-├── claude.md               # Memoria persistente del proyecto
-└── bitacora.md             # Registro de actividades
+│   └── uploads/                # Excluido de Git salvo .gitkeep
+├── composer.json / composer.lock
+├── .env.example                # Plantilla sin secretos
+├── .gitignore / .gitattributes
+├── claude.md                   # Memoria persistente para agentes de IA
+└── bitacora.md                 # Registro de actividades
 ```
 
-## Puesta en marcha local
+## Puesta en marcha local (SQLite)
 
-1. Copiar la plantilla de configuración:
+Requiere PHP 8.4 con extensiones `pdo_sqlite`, `sqlite3`, `curl`, `mbstring`, `openssl` y `fileinfo`.
+
+```bash
+cp .env.example .env
+# En .env: DB_DRIVER=sqlite y DB_PATH=database/sportvibes.sqlite
+php database/inicializar.php
+composer install
+php -S 127.0.0.1:8000 -t public public/index.php
+```
+
+Abrir `http://127.0.0.1:8000`. `GET /health` devuelve un JSON con el estado de la aplicación y de la base de datos.
+
+> El servidor integrado necesita el archivo `public/index.php` como router para que las rutas limpias (`/catalogo`, `/pedidos/1`, etc.) funcionen.
+
+### Cuentas de demostración
+
+| Rol | Correo | Contraseña |
+|---|---|---|
+| Cliente | `cliente@sportvibes.test` | `Cliente123!` |
+| Administrador | `admin@sportvibes.test` | `Admin123!` |
+| Inventario | `inventario@sportvibes.test` | `Inventario123!` |
+| Logística | `logistica@sportvibes.test` | `Logistica123!` |
+| Soporte | `soporte@sportvibes.test` | `Soporte123!` |
+
+El catálogo incluye 10 prendas con existencias por talla (hay tallas agotadas a propósito para probar la validación).
+
+### Funcionalidades por rol
+
+- **Cliente:** registro/login, catálogo con filtro y búsqueda, detalle de producto, personalización validada (≤ 12 caracteres, dorsal ≤ 2 dígitos, filtro de palabras ofensivas), carrito, dirección de entrega, pedido con pago simulado (aprobado/rechazado), historial, seguimiento, consultas y notificaciones.
+- **Inventario:** registro de artículos con código de barras, precio, costo y existencias por talla.
+- **Logística:** pedidos pagados, número de guía y cambios de estado (`en_preparacion` → `enviado` → `entregado`), con aviso por correo.
+- **Soporte:** consultas de clientes y respuestas por correo.
+- **Administrador:** reporte mensual (pedidos, ingresos, envíos, utilidad y ventas por liga), ligas, categorías y cuentas del personal.
+
+**Reglas de negocio aplicadas:** envío fijo de `$99 MXN` (SP10), descuento automático de existencias al aprobar el pago (SP08), aviso de envío con número de guía (SP07) y solo logística cambia el estado del pedido (SP09).
+
+## Correo SMTP
+
+En `.env` configurar `SMTP_HOST`, `SMTP_PORT`, `SMTP_SEGURIDAD` (`tls`, `ssl` o `none`), `SMTP_USUARIO`, `SMTP_CLAVE` y `SMTP_FROM`. Si `SMTP_HOST` está vacío, los avisos se guardan en la tabla `notificaciones` y se muestran en la sección «Avisos», pero no se envían correos.
+
+## Migración de SQLite a MySQL
+
+1. En local, exportar los datos:
 
    ```bash
-   cp .env.example .env
+   php database/migrar_sqlite_a_mysql.php
    ```
 
-   Editar `.env` con las credenciales reales de MySQL. **Nunca subir `.env` a GitHub.**
+   Genera `database/migracion_datos.sql` (excluido de Git; puede contener datos reales).
 
-2. Crear la base de datos y los datos base:
+2. En el VPS, después de importar `schema.sql` y `seed.sql`:
 
    ```bash
-   mysql -u root -p < database/schema.sql
-   mysql -u root -p < database/seed.sql
+   mysql -u sportvibes_user -p sportvibes < database/migracion_datos.sql
    ```
 
-3. Levantar el servidor de desarrollo con el document root en `public/`:
+3. En `.env` del VPS cambiar `DB_DRIVER=mysql` y completar `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS`.
 
-   ```bash
-   php -S localhost:8000 -t public
-   ```
-
-4. Abrir `http://localhost:8000`. La ruta `/health` devuelve un JSON de verificación.
+El export incluye `INSERT IGNORE` y desactiva temporalmente `FOREIGN_KEY_CHECKS` para respetar el orden de llaves foráneas.
 
 ## Subir a GitHub
-
-Desde la raíz del repositorio:
 
 ```bash
 git remote add origin https://github.com/TU_USUARIO/SportVibes.git
@@ -79,39 +119,38 @@ git branch -M main
 git push -u origin main
 ```
 
-Si el repositorio ya tiene remote, comprobarlo con `git remote -v`.
+Comprobar el remote con `git remote -v`. El PDF `docs/SportVibes AVANCE.pdf` está excluido de Git; se conserva solo en local.
 
 ## Despliegue en el VPS (Linux)
 
-Instalación inicial (ejemplo con Ubuntu/Debian y Nginx):
+Instalación inicial (Ubuntu/Debian con Nginx):
 
 ```bash
 sudo apt update
-sudo apt install -y git nginx php-fpm php-mysql mysql-server
+sudo apt install -y git nginx php-fpm php-mysql php-mbstring php-curl php-xml mysql-server composer
 sudo mkdir -p /var/www/sportvibes
 sudo git clone https://github.com/TU_USUARIO/SportVibes.git /var/www/sportvibes
-sudo chown -R www-data:www-data /var/www/sportvibes
+cd /var/www/sportvibes
+composer install --no-dev --optimize-autoloader
 ```
 
 Configuración:
 
 ```bash
-cd /var/www/sportvibes
-cp .env.example .env          # editar conviene: nano .env
+cp .env.example .env          # editar: nano .env (DB_DRIVER=mysql y SMTP)
 mysql -u root -p < database/schema.sql
 mysql -u root -p < database/seed.sql
+# Opcional: importar database/migracion_datos.sql si vienes del desarrollo SQLite
 sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/sportvibes
 sudo ln -s /etc/nginx/sites-available/sportvibes /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-```
-
-Ajustar en `deploy/nginx.conf.example` el dominio y la ruta del socket de PHP-FPM (`php8.3-fpm.sock` puede ser otra versión). Después activar HTTPS con certbot:
-
-```bash
+sudo chown -R www-data:www-data /var/www/sportvibes
 sudo certbot --nginx -d tudominio.com -d www.tudominio.com
 ```
 
-**Actualizaciones posteriores** (traer los cambios de GitHub al VPS):
+Ajustar en `deploy/nginx.conf.example` el dominio y la versión del socket de PHP-FPM.
+
+**Actualizaciones posteriores:**
 
 ```bash
 cd /var/www/sportvibes
@@ -122,12 +161,13 @@ El script hace `git pull --ff-only`, verifica que exista `.env`, corrige permiso
 
 ## Seguridad
 
-- `.env` y `public/uploads/*` están excluidos de Git; solo se versiona `.gitkeep`.
-- La conexión a MySQL usa PDO con consultas preparadas.
-- El sistema debe servir exclusivamente por HTTPS (certificado TLS en el VPS).
-- Las contraseñas se guardan cifradas (`password_hash` / `password_verify`).
-- No se almacenan números completos de tarjeta: el pago se delega a la pasarela.
+- `.env`, la base SQLite y las exportaciones están excluidos de Git.
+- PDO con sentencias preparadas en todas las consultas.
+- Contraseñas cifradas con `password_hash` / `password_verify`.
+- Protección CSRF en todos los formularios (`POST`), control de acceso por rol y cookies de sesión `HttpOnly` + `SameSite=Lax`.
+- Ningún número de tarjeta se almacena; la pasarela es simulada.
+- HTTPS obligatorio en producción (certbot) y cabeceras `X-Content-Type-Options`, `X-Frame-Options` y `Referrer-Policy`.
 
 ## Documentación
 
-El directorio `docs/` contiene el SRS actualizado, los diagramas UML (casos de uso, actividades, clases, secuencia, estados y despliegue), el reporte de avance y la investigación de contexto. La fuente de verdad funcional es `docs/SRS_actualizado.pdf`; el historial de trabajo está en `bitacora.md` y la memoria para agentes de IA en `claude.md`.
+`docs/` contiene el SRS actualizado, los diagramas UML, la investigación y el reporte de avance. La fuente funcional es `docs/SRS_actualizado.pdf`; el historial está en `bitacora.md` y la memoria para agentes de IA en `claude.md`.
