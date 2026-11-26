@@ -1,0 +1,20 @@
+# Secretos y entorno local (NUNCA subir a GitHub)
+.env
+*.env.local
+
+# Subidas de usuarios (solo se versiona el marcador de carpeta)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs y temporales
+*.log
+*.tmp
+*.bak
+
+# Dependencias y herramientas
+vendor/
+node_modules/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
