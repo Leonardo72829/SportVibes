@@ -55,6 +55,7 @@ if ($usuarioActual !== null) {
             <a href="<?= url('admin/ligas') ?>">Ligas</a>
             <a href="<?= url('admin/categorias') ?>">Categorías</a>
             <a href="<?= url('admin/usuarios') ?>">Usuarios</a>
+            <a href="<?= url('correos') ?>">Correos</a>
           <?php endif; ?>
 
           <span class="navegacion__usuario"><?= e($usuarioActual['nombre']) ?> <small><?= e($rolActual) ?></small></span>

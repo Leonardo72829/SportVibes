@@ -81,6 +81,8 @@ $rutas = [
     ['GET',  '#^/admin/usuarios$#',           'AdminController',         'usuarios'],
     ['POST', '#^/admin/usuarios$#',           'AdminController',         'guardarUsuario'],
     ['POST', '#^/admin/usuarios/(\d+)/estado$#', 'AdminController',      'cambiarEstadoUsuario'],
+    ['GET',  '#^/correos$#',                   'AdminController',         'correos'],
+    ['GET',  '#^/correos/ver$#',               'AdminController',         'verCorreo'],
 ];
 
 try {

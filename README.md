@@ -42,6 +42,7 @@ SportVibes/
 │   ├── js/app.js
 │   ├── assets/img/
 │   └── uploads/                # Excluido de Git salvo .gitkeep
+├── storage/correos/            # Correos capturados en modo local (excluidos de Git)
 ├── composer.json / composer.lock
 ├── .env.example                # Plantilla sin secretos
 ├── .gitignore / .gitattributes
@@ -87,9 +88,13 @@ El catálogo incluye 10 prendas con existencias por talla (hay tallas agotadas a
 
 **Reglas de negocio aplicadas:** envío fijo de `$99 MXN` (SP10), descuento automático de existencias al aprobar el pago (SP08), aviso de envío con número de guía (SP07) y solo logística cambia el estado del pedido (SP09).
 
-## Correo SMTP
+## Correo
 
-En `.env` configurar `SMTP_HOST`, `SMTP_PORT`, `SMTP_SEGURIDAD` (`tls`, `ssl` o `none`), `SMTP_USUARIO`, `SMTP_CLAVE` y `SMTP_FROM`. Si `SMTP_HOST` está vacío, los avisos se guardan en la tabla `notificaciones` y se muestran en la sección «Avisos», pero no se envían correos.
+El sistema funciona sin credenciales de correo: mientras `SMTP_HOST` esté vacío se usa el **modo local**. Cada aviso (confirmación de pedido, rechazo de pago, cambio de estado y respuesta de soporte) se guarda como un archivo `.eml` en `storage/correos/` y, además, en la tabla `notificaciones` para que el destinatario lo vea en «Avisos». El administrador puede revisar y abrir los mensajes en `/correos`. Los archivos están excluidos de Git.
+
+Para activar el **envío real** basta con completar `.env` con `SMTP_HOST`, `SMTP_PORT`, `SMTP_SEGURIDAD` (`tls`, `ssl` o `none`), `SMTP_USUARIO`, `SMTP_CLAVE`, `SMTP_FROM` y `SMTP_FROM_NOMBRE`. No hace falta cambiar código: `Mailer` usa PHPMailer automáticamente cuando `SMTP_HOST` no está vacío.
+
+> En el VPS conviene borrar los `.eml` de prueba antes de activar SMTP real para no conservar correos con datos de clientes.
 
 ## Migración de SQLite a MySQL
 

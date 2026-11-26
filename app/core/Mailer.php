@@ -27,6 +27,10 @@ final class Mailer
         );
 
         if (SMTP_HOST === '') {
+            // Sin SMTP configurado: modo local. El mensaje queda en storage/correos/
+            // y también en la tabla notificaciones, visible en la sección «Avisos».
+            $archivo = CorreoLocal::guardar($destinatario, $nombre, $asunto, $mensaje);
+            error_log('SportVibes: correo capturado en storage/correos/' . $archivo);
             return false;
         }
 

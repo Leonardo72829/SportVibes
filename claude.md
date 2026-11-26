@@ -72,7 +72,7 @@
 | Control de versiones | **Git + GitHub**, rama `main` | Definido |
 | Servidor web | Nginx (plantilla en `deploy/nginx.conf.example`) | Propuesto |
 | Pasarela de pago | Simulada (`app/core/PagoSimulado.php`), sin datos de tarjeta | Definido 2026-11-26 |
-| Servicio de correo | PHPMailer v7.2 por SMTP real; copia de cada aviso en `notificaciones` | Definido 2026-11-26 |
+| Servicio de correo | PHPMailer v7.2 por SMTP real; sin credenciales se usa `CorreoLocal` (archivos `.eml` en `storage/correos/` y cascada en `notificaciones`) | Definido 2026-11-26 |
 | Base de datos local | SQLite (PDO) para desarrollo, con migración exportable a MySQL | Definido 2026-11-26 |
 | Gestor de dependencias | Composer (solo PHPMailer; `vendor/` no se versiona) | Definido 2026-11-26 |
 
@@ -122,7 +122,7 @@ SportVibes/                    # raíz Git (rama main)
 2. En el VPS: `git clone ... /var/www/sportvibes`, copiar `.env.example` a `.env`, importar `database/schema.sql` y `database/seed.sql`.
 3. **Migración elegida por el usuario (2026-11-26):** importar también los datos de prueba (`database/migracion_datos.sql`), además de estructura y semillas.
 4. Configurar Nginx con `deploy/nginx.conf.example`, activar HTTPS con certbot.
-5. Completar `.env` con las credenciales SMTP reales (el usuario las proporcionará; mientras tanto los avisos solo se guardan en `notificaciones`).
+5. Correo listo sin credenciales: modo local con `.eml` en `storage/correos/` y bandeja `/correos` para el administrador. Si el usuario entrega credenciales SMTP, completar `.env` y el envío real se activa sin cambiar código.
 6. Para actualizar: `sudo bash deploy/deploy.sh` (hace `git pull --ff-only`, permisos y recarga).
 
 ---

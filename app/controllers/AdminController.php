@@ -177,4 +177,32 @@ final class AdminController
         }
         redirect('admin/usuarios');
     }
+
+    /** Bandeja de correos capturados en modo local (solo administrador). */
+    public static function correos(): void
+    {
+        Auth::requerirRol(['administrador']);
+        View::render('correos', [
+            'archivos' => CorreoLocal::listar(),
+            'modo' => SMTP_HOST === '' ? 'local' : 'smtp',
+        ], 'Correos enviados');
+    }
+
+    /** Muestra un .eml capturado como texto plano. */
+    public static function verCorreo(array $parametros = []): void
+    {
+        Auth::requerirRol(['administrador']);
+        $ruta = CorreoLocal::ruta((string) ($_GET['archivo'] ?? ''));
+
+        if ($ruta === null) {
+            http_response_code(404);
+            View::render('404', [], 'Correo no encontrado');
+            return;
+        }
+
+        header('Content-Type: text/plain; charset=utf-8');
+        header('Content-Disposition: inline; filename="' . basename($ruta) . '"');
+        header('X-Content-Type-Options: nosniff');
+        readfile($ruta);
+    }
 }

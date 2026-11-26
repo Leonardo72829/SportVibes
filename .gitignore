@@ -16,6 +16,10 @@ database/*.sqlite-wal
 database/*.sqlite-shm
 database/migracion_datos.sql
 
+# Correos capturados en desarrollo (pueden contener datos de clientes)
+storage/correos/*
+!storage/correos/.gitkeep
+
 # Logs y temporales
 *.log
 *.tmp

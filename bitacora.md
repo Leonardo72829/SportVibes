@@ -309,6 +309,34 @@ Formato para nuevas entradas:
 - **Responsable:** Usuario
 - **Acción derivada:** No ejecutar `git remote add origin` hasta recibir la URL; completar `.env` con SMTP cuando lleguen las credenciales; en el VPS ejecutar `schema.sql`, `seed.sql` y `migracion_datos.sql` en ese orden.
 
+### 2026-11-26 17:15 — Sistema de correo creado sin credenciales ni instalaciones
+- **Tipo:** entrega / decisión
+- **Descripción:** El usuario pidió que preparara yo el correo. Como el envío real requiere una cuenta SMTP que no se proporcionó, se implementó un **modo local**: `CorreoLocal.php` guarda cada mensaje como `.eml` en `storage/correos/`, `Mailer.php` lo usa automáticamente cuando `SMTP_HOST` está vacío (además de guardar el aviso en `notificaciones`), y el administrador puede listar y abrir los mensajes en `/correos`. No se instaló ningún software. Si después llegan credenciales, basta con completar `.env` para que PHPMailer envíe por SMTP real sin tocar el código.
+- **Artefactos:** `app/core/CorreoLocal.php`, `app/core/Mailer.php`, `app/controllers/AdminController.php`, `app/views/correos.php`, `public/index.php`, `app/views/layout.php`, `.gitignore`, `storage/correos/.gitkeep`, `README.md`, `claude.md`
+- **Responsable:** Agente de IA, a petición del usuario
+- **Acción derivada:** Probar la generación y lectura de `.eml`; documentar el modo local y la activación de SMTP; conservar el remote de GitHub pendiente.
+
+### 2026-11-26 17:15 — Registro cronológico de actividades de la sesión (parte 4)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 43 | 17:12 | Crear `CorreoLocal.php` con guardado, listado y lectura segura de `.eml` | Bandeja local sin dependencias |
+| 44 | 17:13 | Conectar `Mailer` al modo local y añadir bandeja `/correos` para el administrador | Correos visibles en el panel |
+| 45 | 17:14 | Excluir `storage/correos/` de Git y documentar modo local y SMTP | Sin secretos ni correos versionados |
+| 46 | 17:17 | Verificar sintaxis y flujo completo de generación/lectura de correos | 49 archivos PHP sin errores; `.eml` generado; bandeja y visor OK; 404/403 correctos |
+| 47 | 17:17 | Reiniciar la base local y regenerar `migracion_datos.sql` | Datos de prueba coherentes para importar en MySQL |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Hacer commit de los cambios; el envío real queda condicionado a credenciales SMTP y el push a la URL de GitHub.
+
+### 2026-11-26 17:17 — Verificación del correo local
+- **Tipo:** verificación
+- **Descripción:** Con el servidor integrado se confirmó un pedido aprobado y se generó el archivo `.eml` con asunto «Confirmación de tu pedido SV-20261126-A36CE4». El administrador obtuvo HTTP 200 en `/correos` y en el visor del mensaje; un intento de salto de ruta (`?archivo=../config.php`) devolvió 404 y un cliente que intentó entrar a `/correos` recibió 403. Se reinicializó la base SQLite local y se regeneró `migracion_datos.sql` para que los datos de prueba exportados coincidan con el estado final.
+- **Artefactos:** `storage/correos/*.eml`, `database/migracion_datos.sql`, `database/sportvibes.sqlite`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Ninguna; queda pendiente SMTP real y GitHub según lo registrado.
+
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Hacer commit de la implementación; esperar la URL de GitHub para configurar `origin` y las credenciales SMTP para activar los correos.
