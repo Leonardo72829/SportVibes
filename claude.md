@@ -118,10 +118,12 @@ SportVibes/                    # raíz Git (rama main)
 
 **Flujo GitHub → VPS**
 
-1. `git remote add origin https://github.com/TU_USUARIO/SportVibes.git` y `git push -u origin main`.
+1. **Pendiente por decisión del usuario (2026-11-26):** dejar sin configurar el remote de GitHub. No inventar la URL; cuando se proporcione: `git remote add origin <URL>` y `git push -u origin main`.
 2. En el VPS: `git clone ... /var/www/sportvibes`, copiar `.env.example` a `.env`, importar `database/schema.sql` y `database/seed.sql`.
-3. Configurar Nginx con `deploy/nginx.conf.example`, activar HTTPS con certbot.
-4. Para actualizar: `sudo bash deploy/deploy.sh` (hace `git pull --ff-only`, permisos y recarga).
+3. **Migración elegida por el usuario (2026-11-26):** importar también los datos de prueba (`database/migracion_datos.sql`), además de estructura y semillas.
+4. Configurar Nginx con `deploy/nginx.conf.example`, activar HTTPS con certbot.
+5. Completar `.env` con las credenciales SMTP reales (el usuario las proporcionará; mientras tanto los avisos solo se guardan en `notificaciones`).
+6. Para actualizar: `sudo bash deploy/deploy.sh` (hace `git pull --ff-only`, permisos y recarga).
 
 ---
 

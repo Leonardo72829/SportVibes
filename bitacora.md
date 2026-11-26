@@ -128,7 +128,7 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 
 **Implementado y verificado:** los 24 requerimientos funcionales en 11 controladores y 25 vistas, enrutador con 38 rutas, estilos responsive, JavaScript puro, base SQLite local con datos demo, exportador a MySQL, PHPMailer, 47 archivos PHP sin errores de sintaxis y pruebas HTTP de todos los flujos y roles.
 
-**Pendiente:** URL del repositorio en GitHub para configurar `origin` y hacer push; credenciales SMTP reales para activar el envío de correos; instalación y configuración de MySQL en el VPS (o importar la migración desde SQLite).
+**Pendiente:** configurar el remote de GitHub (el usuario decidió dejarlo pendiente y así registrarlo); recibir las credenciales SMTP para activar el envío de correos ya aceptado; instalación y configuración de MySQL en el VPS, importando también los datos de prueba desde SQLite (decisión del 2026-11-26).
 
 ---
 
@@ -299,6 +299,15 @@ Formato para nuevas entradas:
 | 38 | 17:00 | Actualizar `README.md`, `claude.md` y `bitacora.md` | Documentación alineada |
 | 39 | 17:02 | Hacer opcional el autoload de PHPMailer cuando no hay `vendor/` | La app funciona sin Composer mientras SMTP esté vacío |
 | 40 | 17:05 | `php -l` final, prueba de `/health` sin `vendor/` y commit de la implementación | 47 archivos sin errores; health 200; 60 archivos versionados; árbol limpio |
+| 41 | 17:10 | Preguntar al usuario por GitHub, SMTP y migración a MySQL | Ver respuestas registradas abajo |
+| 42 | 17:10 | Registrar las decisiones en `claude.md` y `bitacora.md` | Documentación actualizada |
+
+### 2026-11-26 17:10 — Decisiones de entrega y despliegue
+- **Tipo:** decisión
+- **Descripción:** El usuario indicó: (1) dejar pendiente la configuración del remote de GitHub y registrarlo en la bitácora; (2) sí desea configurar SMTP real, por lo que se esperan los valores de host, puerto, seguridad, usuario, contraseña y remitente; (3) en la migración a MySQL del VPS se deben importar también los datos de prueba generados en local (`migracion_datos.sql`).
+- **Artefactos:** `claude.md` (flujo GitHub → VPS), `bitacora.md`, `.env` (pendiente)
+- **Responsable:** Usuario
+- **Acción derivada:** No ejecutar `git remote add origin` hasta recibir la URL; completar `.env` con SMTP cuando lleguen las credenciales; en el VPS ejecutar `schema.sql`, `seed.sql` y `migracion_datos.sql` en ese orden.
 
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
