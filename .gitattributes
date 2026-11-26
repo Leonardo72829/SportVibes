@@ -1,0 +1,15 @@
+# Forzar LF en el repositorio para que los scripts funcionen en el VPS Linux.
+* text=auto
+
+*.sh   text eol=lf
+*.php  text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.sql  text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.ico  binary
