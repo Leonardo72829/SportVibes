@@ -426,7 +426,7 @@ Formato para nuevas entradas:
 
 ### 2026-11-26 18:05 — Publicación de las fotos reales en GitHub
 - **Tipo:** trazabilidad
-- **Descripción:** Se verificó `php -l` en `app/core/helpers.php`, `database/inicializar.php` y `database/migrar_sqlite_a_mysql.php`, todos sin errores. El estado de Git solo contenía los archivos esperados: código, hojas de estilo, seeds, documentación y las siete imágenes. Se creó el commit local `43c07c9` con mensaje `feat: fotos reales 2026/27 con etiqueta local/visitante`. No se versionaron secretos ni la base SQLite; `migracion_datos.sql` sigue excluido por `.gitignore`.
-- **Artefactos:** commit `43c07c9`, rama `main`, repositorio `https://github.com/Leonardo72829/SportVibes.git`
+- **Descripción:** Se verificó `php -l` en `app/core/helpers.php`, `database/inicializar.php` y `database/migrar_sqlite_a_mysql.php`, todos sin errores. El estado de Git solo contenía los archivos esperados: código, hojas de estilo, seeds, documentación y las siete imágenes. Se creó el commit `4e0aa6d` con mensaje `feat: fotos reales 2026/27 con etiqueta local/visitante` (el commit inicial `43c07c9` se enmendó para incluir este registro). No se versionaron secretos ni la base SQLite; `migracion_datos.sql` sigue excluido por `.gitignore`.
+- **Artefactos:** commit `4e0aa6d`, rama `main`, repositorio `https://github.com/Leonardo72829/SportVibes.git`
 - **Responsable:** Agente de IA
 - **Acción derivada:** Subir la rama `main` a `origin`.
