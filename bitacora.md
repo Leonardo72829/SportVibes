@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 10:21
+> **Última actualización:** 2026-11-26 10:23
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -218,7 +218,18 @@ Formato para nuevas entradas:
 | 20 | 10:21 | Añadir el PDF de avance a `.gitignore` y ejecutar `git rm --cached` | Archivo conservado en local, fuera del índice |
 | 21 | 10:21 | Depurar el historial de Git y compactar con `git gc` | PDF eliminado de todos los commits |
 | 22 | 10:21 | Actualizar esta bitácora con la instalación, las pruebas y la exclusión | Registro completo |
+| 23 | 10:22 | Primer intento de `git filter-branch` para purgar el PDF | Falló: `fatal: bad revision 'AVANCE.pdf'` por el espacio en la ruta |
+| 24 | 10:22 | Crear script `remove_pdf.sh` con la ruta entre comillas y repetir `filter-branch` | Los 3 commits se reescribieron sin el PDF |
+| 25 | 10:23 | Borrar `refs/original`, expirar reflogs, `git repack -a -d -f` y `git prune` | Paquete de 65.48 MiB a 517.64 KiB; `git rev-list --objects --all` ya no lista el PDF |
+| 26 | 10:23 | Verificar que el archivo sigue en disco, que `.gitignore` lo excluye y que el árbol está limpio | Todo correcto |
 
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Configurar el remote de GitHub y subir la rama `main`; validar PHP y MySQL en el VPS.
+
+### 2026-11-26 10:23 — Resultado final de la limpieza del historial
+- **Tipo:** verificación
+- **Descripción:** La depuración del historial terminó correctamente. Los commits finales son `32494c6` (organización inicial), `6e52d11` (`.gitattributes` y bitácora) y `f5bfc34` (exclusión del PDF y pruebas de PHP). El tamaño del paquete Git bajó de 65.48 MiB a 517.64 KiB. `git ls-files` y `git rev-list --objects --all` ya no contienen `SportVibes AVANCE.pdf`, mientras que el archivo permanece en `docs/` para consulta local. El primer intento de purga falló por una ruta con espacios y se resolvió con un script de filtro.
+- **Artefactos:** `.gitignore`, historial de Git, `docs/SportVibes AVANCE.pdf` (solo local)
+- **Responsable:** Agente de IA
+- **Acción derivada:** Hacer push de `main` a GitHub; el PDF no viajará con el repositorio.
