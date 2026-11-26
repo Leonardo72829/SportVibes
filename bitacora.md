@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 18:04
+> **Última actualización:** 2026-11-26 18:11
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -430,3 +430,22 @@ Formato para nuevas entradas:
 - **Artefactos:** commit `4e0aa6d`, rama `main`, repositorio `https://github.com/Leonardo72829/SportVibes.git`
 - **Responsable:** Agente de IA
 - **Acción derivada:** Subir la rama `main` a `origin`.
+
+### 2026-11-26 18:11 — Cierre de la sesión y resumen integral del proyecto
+- **Tipo:** cierre de sesión / trazabilidad
+- **Descripción:** A petición del usuario se da por concluida la sesión de trabajo y se persiste aquí el estado completo del proyecto. **Alcance funcional:** SportVibes quedó como plataforma web (no app móvil nativa) con los 24 requisitos funcionales del SRS implementados; 11 controladores, 25 vistas y 38 rutas; sintaxis PHP verificada con `php -l` en 49 archivos; flujos HTTP comprobados para catálogo, carrito, registro, login, checkout, pago aprobado/rechazado, notificaciones, roles y soporte; CSRF devuelve 419 y los accesos no autorizados 403; el stock se descuenta al aprobar el pago y el correo local genera `.eml` en `storage/correos/`. **Datos y despliegue:** SQLite local para desarrollo y MySQL en VPS para producción; `migracion_datos.sql` se genera desde SQLite pero no se versiona; pendientes el acceso/IP/usuario del VPS, permisos para instalar Nginx/PHP/MySQL y credenciales SMTP reales. **Decisiones vigentes:** pago simulado sin guardar tarjeta; correo local activo con PHPMailer opcional por `.env`; tallas `CH/M/G/XG/XXG`; personalización ≤12 caracteres y dorsal ≤2 dígitos con filtro de ofensivas; SP07/SP08/SP09/SP10 aceptados (aviso, stock al aprobar, solo logística cambia estados, envío fijo `COSTO_ENVIO=99`); CFDI excluido; `docs/SportVibes AVANCE.pdf` excluido y purgado del historial. **Imágenes:** siete fotos reales 2026/27 (Flamengo 2026) en `public/assets/img/` con fuentes en `docs/FUENTES_IMAGENES.md`; Kings League, Esports Atlas y Esports Gaming MX conservan SVG por decisión del usuario; todas usan el mismo marco `4 / 5` y la insignia LOCAL/VISITANTE. **Verificación final antes del cierre:** `HEAD` local y `origin/main` coincidían en `e1d40fd`, conárbol de trabajo limpio; commits publicados `4e0aa6d` (fotos reales) y `e1d40fd` (corrección de bitácora). **Pendiente para uso comercial:** sustituir las fotos por imágenes propias o licenciadas. El servidor de pruebas local en `http://127.0.0.1:8000` no se detuvo porque no se solicitó.
+- **Artefactos:** `bitacora.md`, `claude.md`, `README.md`, `docs/FUENTES_IMAGENES.md`, repositorio `https://github.com/Leonardo72829/SportVibes.git`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Registrar este cierre, hacer commit y push final; la sesión queda concluida en el registro.
+
+### 2026-11-26 18:11 — Registro cronológico de actividades de la sesión (parte 9)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 70 | 18:06 | Confirmar que los cambios estaban en GitHub | `HEAD` y `origin/main` en `e1d40fd`, árbol limpio |
+| 71 | 18:10 | Solicitar cierre de sesión y guardado total en bitácora | Se preparó resumen integral del estado y decisiones |
+| 72 | 18:11 | Registrar cierre y publicar el último cambio | `bitacora.md` actualizado y subido a `origin/main` |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Ninguna; sesión cerrada según lo solicitado.
