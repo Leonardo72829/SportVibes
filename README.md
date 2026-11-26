@@ -118,13 +118,25 @@ El export incluye `INSERT IGNORE` y desactiva temporalmente `FOREIGN_KEY_CHECKS`
 
 ## Subir a GitHub
 
+El remote ya está configurado y la rama `main` está publicada en **https://github.com/Leonardo72829/SportVibes**.
+
+Para subir cambios posteriores:
+
 ```bash
-git remote add origin https://github.com/TU_USUARIO/SportVibes.git
+git add -A
+git commit -m "descripción del cambio"
+git push
+```
+
+Si vas a clonar el proyecto en otro equipo, configura el remote con:
+
+```bash
+git remote add origin https://github.com/Leonardo72829/SportVibes.git
 git branch -M main
 git push -u origin main
 ```
 
-Comprobar el remote con `git remote -v`. El PDF `docs/SportVibes AVANCE.pdf` está excluido de Git; se conserva solo en local.
+Comprobar el remote con `git remote -v`. El PDF `docs/SportVibes AVANCE.pdf`, `.env`, la base SQLite, la exportación SQL y los correos capturados están excluidos de Git.
 
 ## Despliegue en el VPS (Linux)
 
@@ -134,7 +146,7 @@ Instalación inicial (Ubuntu/Debian con Nginx):
 sudo apt update
 sudo apt install -y git nginx php-fpm php-mysql php-mbstring php-curl php-xml mysql-server composer
 sudo mkdir -p /var/www/sportvibes
-sudo git clone https://github.com/TU_USUARIO/SportVibes.git /var/www/sportvibes
+sudo git clone https://github.com/Leonardo72829/SportVibes.git /var/www/sportvibes
 cd /var/www/sportvibes
 composer install --no-dev --optimize-autoloader
 ```

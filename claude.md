@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 17:00
+> **Última actualización:** 2026-11-26 17:40
 
 ---
 
@@ -118,7 +118,7 @@ SportVibes/                    # raíz Git (rama main)
 
 **Flujo GitHub → VPS**
 
-1. **Pendiente por decisión del usuario (2026-11-26):** dejar sin configurar el remote de GitHub. No inventar la URL; cuando se proporcione: `git remote add origin <URL>` y `git push -u origin main`.
+1. **GitHub configurado el 2026-11-26:** remote `origin = https://github.com/Leonardo72829/SportVibes.git`, rama `main` publicada y con tracking (`git status -sb` → `## main...origin/main`). El repositorio se localizó con la API pública de GitHub a partir del usuario de Git configurado; no fue necesario instalar la CLI de GitHub. Actualizaciones: `git push`.
 2. En el VPS: `git clone ... /var/www/sportvibes`, copiar `.env.example` a `.env`, importar `database/schema.sql` y `database/seed.sql`.
 3. **Migración elegida por el usuario (2026-11-26):** importar también los datos de prueba (`database/migracion_datos.sql`), además de estructura y semillas.
 4. Configurar Nginx con `deploy/nginx.conf.example`, activar HTTPS con certbot.

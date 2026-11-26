@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 17:00
+> **Última actualización:** 2026-11-26 17:40
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -17,7 +17,8 @@
 | Idioma del proyecto | Español |
 | Stack | HTML, CSS y JavaScript puro / PHP / MySQL / VPS Linux / Git y GitHub |
 | PHP local para pruebas | PHP 8.4.28 NTS x64, instalación portátil en `C:\Users\sanch\AppData\Local\Programs\PHP\php-8.4.28` |
-| Estado actual | Sistema web completo implementado (24 RF) con SQLite local y MySQL para producción; sintaxis y flujos HTTP verificados; PDF de avance excluido de Git; pendiente el despliegue en VPS y credenciales SMTP reales |
+| Estado actual | Sistema web completo implementado (24 RF) con SQLite local y MySQL para producción; sintaxis y flujos HTTP verificados; rama `main` publicada en GitHub; PDF de avance excluido de Git; pendiente el despliegue en VPS y credenciales SMTP reales |
+| Repositorio en GitHub | https://github.com/Leonardo72829/SportVibes (público, rama `main`, `origin` configurado) |
 
 ---
 
@@ -128,7 +129,7 @@ Las fechas de los documentos de diseño se tomaron de su fecha de modificación 
 
 **Implementado y verificado:** los 24 requerimientos funcionales en 11 controladores y 25 vistas, enrutador con 38 rutas, estilos responsive, JavaScript puro, base SQLite local con datos demo, exportador a MySQL, PHPMailer, 47 archivos PHP sin errores de sintaxis y pruebas HTTP de todos los flujos y roles.
 
-**Pendiente:** configurar el remote de GitHub (el usuario decidió dejarlo pendiente y así registrarlo); recibir las credenciales SMTP para activar el envío de correos ya aceptado; instalación y configuración de MySQL en el VPS, importando también los datos de prueba desde SQLite (decisión del 2026-11-26).
+**Pendiente:** recibir las credenciales SMTP para activar el envío de correos reales (el modo local ya funciona); instalación y configuración de MySQL en el VPS, importando también los datos de prueba desde SQLite (decisión del 2026-11-26). **GitHub ya no está pendiente:** ver entrada de las 17:40.
 
 ---
 
@@ -335,8 +336,25 @@ Formato para nuevas entradas:
 - **Descripción:** Con el servidor integrado se confirmó un pedido aprobado y se generó el archivo `.eml` con asunto «Confirmación de tu pedido SV-20261126-A36CE4». El administrador obtuvo HTTP 200 en `/correos` y en el visor del mensaje; un intento de salto de ruta (`?archivo=../config.php`) devolvió 404 y un cliente que intentó entrar a `/correos` recibió 403. Se reinicializó la base SQLite local y se regeneró `migracion_datos.sql` para que los datos de prueba exportados coincidan con el estado final.
 - **Artefactos:** `storage/correos/*.eml`, `database/migracion_datos.sql`, `database/sportvibes.sqlite`
 - **Responsable:** Agente de IA
-- **Acción derivada:** Ninguna; queda pendiente SMTP real y GitHub según lo registrado.
+- **Acción derivada:** GitHub resuelto (ver entrada siguiente); sigue pendiente solo SMTP real y el despliegue en VPS.
+
+### 2026-11-26 17:40 — Publicación del proyecto en GitHub
+- **Tipo:** entrega
+- **Descripción:** El usuario confirmó que ya había creado su repositorio. No estaba instalada la CLI de GitHub, así que se localizó el repo mediante la API pública de GitHub usando el usuario de Git configurado (`Leonardo72829`): `SportVibes`, creado el 2026-11-26, vacío y con rama por defecto `main`. Se añadió `origin = https://github.com/Leonardo72829/SportVibes.git` y se ejecutó `git push -u origin main` con éxito: la rama remota quedó en `403b86e4142d44e742276f80c262edf21e659acb` y el tracking `main...origin/main`. Se verificó por API que el commit existe en GitHub y que `.env`, `*.sqlite`, `migracion_datos.sql`, `vendor/` y `docs/SportVibes AVANCE.pdf` no fueron subidos. Se actualizó `README.md` y `claude.md` con la URL definitiva.
+- **Artefactos:** remote `origin`, commit `403b86e`, `README.md`, `claude.md`, esta bitácora
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Usar `git push` para futuras actualizaciones; clonar en el VPS con la URL indicada; pendientes SMTP real y despliegue en VPS.
+
+### 2026-11-26 17:40 — Registro cronológico de actividades de la sesión (parte 5)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 48 | 17:38 | Comprobar CLI de GitHub, remotes e identidad de Git | `gh` no instalado; sin remotes; usuario `Leonardo72829` |
+| 49 | 17:39 | Localizar el repositorio creado con la API pública de GitHub | `Leonardo72829/SportVibes`, vacío, rama `main` |
+| 50 | 17:40 | `git remote add origin` y `git push -u origin main` | Push correcto; `main...origin/main`; verificado por API |
+| 51 | 17:40 | Verificar que no se subieron secretos, base local ni PDF pesado | Sin archivos sensibles en `HEAD` |
+| 52 | 17:40 | Actualizar `README.md`, `claude.md` y `bitacora.md` con la URL final | Documentación alineada |
 
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
-- **Acción derivada:** Hacer commit de la implementación; esperar la URL de GitHub para configurar `origin` y las credenciales SMTP para activar los correos.
+- **Acción derivada:** Hacer commit y push de esta última documentación; continuar con el despliegue en el VPS cuando el usuario lo indique.
