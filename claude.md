@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 17:40
+> **Última actualización:** 2026-11-26 17:53
 
 ---
 
@@ -168,6 +168,8 @@ Los 10 módulos ya están implementados en `app/controllers/` con sus vistas en 
 **Resuelta el 2026-11-26:** facturación CFDI del diagrama de actividades antiguo → no incluida; el SRS actualizado no la contempla.
 
 **Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` → excluido de Git y del historial; conservado solo en local.
+
+**Resuelta el 2026-11-26:** imágenes de producto → SVG generado por `imagen_producto()` con un mismo diseño para todas las prendas, colores por equipo y etiqueta visible `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` (en ambos esquemas) y se deduce del nombre cuando falta. No se usan librerías ni imágenes externas.
 
 ---
 

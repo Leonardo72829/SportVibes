@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 17:40
+> **Última actualización:** 2026-11-26 17:53
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -377,3 +377,24 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Ninguna; el servidor sigue activo en `http://127.0.0.1:8000` mientras dure la sesión.
+
+### 2026-11-26 17:53 — Imágenes de producto con diseño único y variante local/visitante
+- **Tipo:** mejora funcional / decisión aceptada por el usuario
+- **Descripción:** El usuario pidió que los artículos muestren la imagen de la playera según su nombre, con un mismo diseño para todos y que se distinga si es local o visitante. Se creó el helper `imagen_producto()` en `app/core/helpers.php`, que genera un SVG de camiseta con la misma silueta para todas las prendas, paleta de colores según el equipo (América, Cruz Azul, Liverpool, Bayern, PSG, Inter, Flamengo, Kings League y Esports), nombre del equipo y una etiqueta visible `LOCAL` o `VISITANTE`. La versión visitante usa camiseta clara y franja del color del equipo; la local usa el color principal y franja oscura. El texto se ajusta a longitudes largas y se elige claro/oscuro según contraste. Se integró en catálogo, inicio y detalle de producto, y se ajustó el CSS para que el SVG llene el espacio disponible. Se añadió la columna `variante` (`local`/`visitante`) a los esquemas SQLite y MySQL, se actualizaron ambos seeds con 5 productos locales y 5 visitantes, y se hizo que `inicializar.php` añada la columna a bases ya existentes sin borrar datos. Se reinicializó la SQLite local y se regeneró `migracion_datos.sql` para que el VPS reciba la variante. Verificación: 10 SVG en el catálogo con etiquetas LOCAL/VISITANTE correctas, detalle de Bayern visitante con etiqueta y nombre visibles, consola sin errores, `/catalogo` y `/producto/4` con HTTP 200.
+- **Artefactos:** `app/core/helpers.php`, `app/views/catalogo.php`, `app/views/inicio.php`, `app/views/producto.php`, `public/css/estilos.css`, `database/schema.sqlite.sql`, `database/schema.sql`, `database/seed.sqlite.sql`, `database/seed.sql`, `database/inicializar.php`, `database/migracion_datos.sql`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Registrar la mejora, hacer commit y push; en el VPS, al importar `schema.sql` y los datos, la columna `variante` estará incluida.
+
+### 2026-11-26 17:53 — Registro cronológico de actividades de la sesión (parte 7)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 56 | 17:50 | Revisar productos, vistas y esquemas para ubicar la imagen | Sin imágenes reales; solo iniciales de liga |
+| 57 | 17:51 | Crear helper SVG con diseño único, colores por equipo y etiqueta local/visitante | 10 productos con imagen generada |
+| 58 | 17:52 | Integrar SVG en catálogo, inicio y detalle; ajustar CSS | SVG visible y sin errores de consola |
+| 59 | 17:52 | Añadir columna `variante` a esquemas y seeds; migración automática en `inicializar.php` | SQLite actualizada sin perder datos |
+| 60 | 17:53 | Regenerar `migracion_datos.sql` y verificar HTTP y navegador | Export con variante; 200 en catálogo y detalle |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Hacer commit y push de la mejora.

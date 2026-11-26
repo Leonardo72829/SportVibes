@@ -156,11 +156,11 @@ img { max-width: 100%; }
 .tarjeta { display: flex; flex-direction: column; transition: transform .15s ease; }
 .tarjeta:hover { transform: translateY(-3px); }
 .tarjeta__imagen {
-  aspect-ratio: 4 / 3; display: grid; place-items: center;
+  aspect-ratio: 4 / 3; display: grid; place-items: center; padding: .5rem;
   background: linear-gradient(135deg, #22345a, #101a2e);
   border-bottom: 1px solid var(--borde);
 }
-.tarjeta__imagen span { font-size: 2.8rem; font-weight: 900; color: var(--acento); opacity: .7; }
+.imagen-producto { display: block; width: 100%; height: 100%; }
 .tarjeta__cuerpo { padding: 1.1rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; }
 .tarjeta__cuerpo h3 { margin: 0; font-size: 1.1rem; }
 .tarjeta__liga { color: var(--acento); font-size: .76rem; font-weight: 700; margin: 0; }
@@ -248,11 +248,11 @@ img { max-width: 100%; }
   display: grid; grid-template-columns: 1.4fr .9fr; gap: 1.5rem; align-items: start;
 }
 .detalle-producto__visual {
-  min-height: 380px; display: grid; place-items: center;
+  min-height: 380px; display: grid; place-items: center; padding: 1rem;
   background: linear-gradient(145deg, #24365d, #101a30);
   border: 1px solid var(--borde); border-radius: var(--radio);
 }
-.detalle-producto__visual span { font-size: 6rem; font-weight: 900; color: var(--acento); opacity: .65; }
+.detalle-producto__visual .imagen-producto { max-width: 420px; }
 .detalle-producto__info h1 { font-size: 2rem; }
 .resumen {
   padding: 1.25rem; background: var(--superficie);

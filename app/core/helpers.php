@@ -104,3 +104,91 @@ function estadoBadge(string $estado): string
     $texto = $etiquetas[$estado] ?? ucfirst($estado);
     return '<span class="badge badge--' . e($estado) . '">' . e($texto) . '</span>';
 }
+
+/**
+ * Imagen del producto: un mismo diseño de camiseta para todas las prendas.
+ * Los colores se eligen según el equipo y la etiqueta indica LOCAL o VISITANTE.
+ * Se genera como SVG para no depender de archivos externos ni de librerías.
+ */
+function imagen_producto(array $producto): string
+{
+    $id = (int) ($producto['id'] ?? 0);
+    $nombre = (string) ($producto['nombre'] ?? 'SportVibes');
+    $texto = mb_strtolower($nombre . ' ' . (string) ($producto['descripcion'] ?? ''));
+
+    // Si el producto trae la variante guardada, esa manda; si no, se deduce del nombre.
+    $guardada = mb_strtolower((string) ($producto['variante'] ?? ''));
+    $visitante = $guardada !== ''
+        ? str_contains($guardada, 'visitante')
+        : str_contains($texto, 'visitante') && !str_contains($texto, 'local');
+
+    $equipo = preg_replace('/^(camiseta|jersey)\s+/iu', '', $nombre) ?? $nombre;
+    $equipo = preg_replace('/\s+(edici[oó]n\s+)?(local|visitante)\s*$/iu', '', $equipo) ?? $equipo;
+    $equipo = mb_substr(trim($equipo), 0, 16);
+
+    $paletas = [
+        'américa' => ['#f5d20a', '#143b8c', '#ffffff'],
+        'america' => ['#f5d20a', '#143b8c', '#ffffff'],
+        'cruz azul' => ['#1646b8', '#0b1a3a', '#ffffff'],
+        'liverpool' => ['#c8102e', '#0b1a3a', '#ffffff'],
+        'bayern' => ['#d30b2f', '#0b1a3a', '#ffffff'],
+        'psg' => ['#102a63', '#d10b3c', '#ffffff'],
+        'inter' => ['#0068a8', '#0b1a3a', '#ffffff'],
+        'flamengo' => ['#d90b1c', '#111318', '#ffffff'],
+        'kings league' => ['#7c3aed', '#0b1020', '#ffffff'],
+        'esports' => ['#00c8ff', '#0b1020', '#b6ff3c'],
+    ];
+    $colores = ['#b6ff3c', '#182238', '#0b1020'];
+    foreach ($paletas as $clave => $paleta) {
+        if (str_contains($texto, $clave)) {
+            $colores = $paleta;
+            break;
+        }
+    }
+
+    // En visitante la camiseta es clara y la franja toma el color del equipo.
+    $base = $visitante ? '#f2f5fb' : $colores[0];
+    $franja = $visitante ? $colores[0] : $colores[1];
+    // Elegir texto claro u oscuro según el fondo para que siempre se lea.
+    $contraste = static function (string $hex): string {
+        $hex = ltrim($hex, '#');
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
+        return (0.299 * $r + 0.587 * $g + 0.114 * $b) > 150 ? '#0b1020' : '#ffffff';
+    };
+    $colorTexto = $contraste($base);
+    $colorFranjaTexto = $contraste($franja);
+    $etiqueta = $visitante ? 'VISITANTE' : 'LOCAL';
+    $colorEtiqueta = $visitante ? '#5aa0ff' : '#b6ff3c';
+    $colorEtiquetaTexto = $visitante ? '#081226' : '#0d1408';
+    $inicial = mb_substr($equipo, 0, 1);
+    $tamanoEquipo = mb_strlen($equipo) > 12 ? 18 : 25;
+    $clipId = 'jersey-' . $id;
+    $forma = 'M150 70 L120 82 L86 130 L120 152 L136 132 L136 300 Q200 316 264 300 '
+        . 'L264 132 L280 152 L314 130 L280 82 L250 70 Q236 92 200 92 Q164 92 150 70 Z';
+
+    $equipoSeguro = e($equipo);
+    $etiquetaSegura = e($etiqueta);
+    $inicialSegura = e($inicial);
+    $aria = e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
+
+    return <<<SVG
+<svg class="imagen-producto" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{$aria}">
+  <defs><clipPath id="{$clipId}"><path d="{$forma}"/></clipPath></defs>
+  <rect width="400" height="360" rx="18" fill="#0e1628"/>
+  <circle cx="200" cy="172" r="142" fill="{$franja}" opacity="0.10"/>
+  <path d="{$forma}" fill="{$base}"/>
+  <g clip-path="url(#{$clipId})">
+    <rect x="120" y="156" width="160" height="38" fill="{$franja}" opacity="0.85"/>
+    <rect x="120" y="274" width="160" height="9" fill="{$franja}" opacity="0.32"/>
+  </g>
+  <path d="{$forma}" fill="none" stroke="#ffffff" stroke-opacity="0.28" stroke-width="3"/>
+  <circle cx="200" cy="127" r="17" fill="{$franja}" stroke="{$colorTexto}" stroke-width="2"/>
+  <text x="200" y="134" text-anchor="middle" font-size="16" font-weight="800" fill="{$colorFranjaTexto}">{$inicialSegura}</text>
+  <text x="200" y="226" text-anchor="middle" font-size="{$tamanoEquipo}" font-weight="900" fill="{$colorTexto}">{$equipoSeguro}</text>
+  <rect x="126" y="292" width="148" height="28" rx="14" fill="{$colorEtiqueta}"/>
+  <text x="200" y="311" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="2" fill="{$colorEtiquetaTexto}">{$etiquetaSegura}</text>
+</svg>
+SVG;
+}

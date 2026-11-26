@@ -41,7 +41,7 @@
   <div class="cuadricula">
     <?php foreach ($destacados as $producto): ?>
       <article class="tarjeta">
-        <div class="tarjeta__imagen" aria-hidden="true"><span><?= e(mb_substr($producto['liga'] ?? 'SV', 0, 2)) ?></span></div>
+        <div class="tarjeta__imagen"><?= imagen_producto($producto) ?></div>
         <div class="tarjeta__cuerpo">
           <p class="tarjeta__liga"><?= e($producto['liga']) ?></p>
           <h3><?= e($producto['nombre']) ?></h3>

@@ -11,7 +11,7 @@ El cliente consulta el catálogo, elige talla, personaliza nombre y dorsal, agre
 | Frontend | HTML semántico, CSS y JavaScript puro (sin frameworks ni librerías) |
 | Backend | PHP 8.4 con PDO y sentencias preparadas |
 | Base de datos | SQLite en desarrollo local · **MySQL (InnoDB, `utf8mb4`) en producción** |
-| Correo | PHPMailer vía SMTP real (los avisos también se guardan en la base de datos) |
+| Correo | PHPMailer vía SMTP real cuando hay credenciales; modo local con `.eml` para desarrollo (los avisos también se guardan en la base de datos) |
 | Pago | Pasarela simulada (no guarda datos de tarjeta) |
 | Servidor | VPS Linux, document root en `public/` |
 | Control de versiones | Git / GitHub, rama `main` |
@@ -64,7 +64,11 @@ php -S 127.0.0.1:8000 -t public public/index.php
 
 Abrir `http://127.0.0.1:8000`. `GET /health` devuelve un JSON con el estado de la aplicación y de la base de datos.
 
-> El servidor integrado necesita el archivo `public/index.php` como router para que las rutas limpias (`/catalogo`, `/pedidos/1`, etc.) funcionen.
+> El servidor integrado necesita el archivo `public/index.php` como router para que las rutas limpias (`/catalogo`, `/pedidos/1`, etc.) funcionen. El propio router sirve los archivos estáticos de `public/` cuando existen, para que CSS y JS carguen con el MIME correcto.
+
+### Imágenes de producto
+
+Todas las prendas comparten un único diseño de camiseta generado en SVG por `app/core/helpers.php` (`imagen_producto()`): misma silueta, colores según el equipo y una etiqueta bien visible **LOCAL** o **VISITANTE**. La variante viene de la columna `productos.variante` y, si falta, se deduce del nombre del producto. No hay imágenes externas ni dependencias nuevas. Los seeds incluyen 5 playeras locales y 5 visitantes; al inicializar una base antigua se añade la columna sin borrar datos.
 
 ### Cuentas de demostración
 

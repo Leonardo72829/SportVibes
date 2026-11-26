@@ -1,8 +1,8 @@
 <nav class="migas"><a href="<?= url('catalogo') ?>">Catálogo</a> / <?= e($producto['nombre']) ?></nav>
 
 <div class="detalle-producto">
-  <div class="detalle-producto__visual" aria-hidden="true">
-    <span><?= e(mb_substr($producto['liga'] ?? 'SV', 0, 2)) ?></span>
+  <div class="detalle-producto__visual">
+    <?= imagen_producto($producto) ?>
   </div>
 
   <div class="detalle-producto__info">

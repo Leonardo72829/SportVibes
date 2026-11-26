@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS productos (
   categoria_id INTEGER REFERENCES categorias(id) ON DELETE SET NULL,
   personalizable INTEGER NOT NULL DEFAULT 0,
   imagen TEXT,
+  variante TEXT NOT NULL DEFAULT 'local',
   activo INTEGER NOT NULL DEFAULT 1,
   fecha_alta TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

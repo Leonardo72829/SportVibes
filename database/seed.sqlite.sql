@@ -35,17 +35,19 @@ INSERT OR IGNORE INTO usuarios (id, rol_id, nombre, correo, contrasena_hash, act
 INSERT OR IGNORE INTO direcciones (id, usuario_id, calle, numero_ext, colonia, codigo_postal, ciudad, estado, referencia) VALUES
   (1, 1, 'Av. Reforma', '123', 'Juárez', '06600', 'Ciudad de México', 'CDMX', 'Portón azul');
 
-INSERT OR IGNORE INTO productos (id, codigo_barras, nombre, descripcion, precio, costo, liga_id, categoria_id, personalizable, imagen) VALUES
-  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, tela transpirable.', 899, 420, 1, 1, 1, NULL),
-  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul con acabados de alta calidad.', 899, 420, 1, 1, 1, NULL),
-  (3, 'SV-PL-001', 'Camiseta Liverpool Local', 'Jersey oficial inspirado en la Premier League.', 999, 480, 2, 2, 1, NULL),
-  (4, 'SV-BL-001', 'Camiseta Bayern Múnich', 'Jersey de la Bundesliga, corte atlético.', 999, 480, 3, 3, 1, NULL),
-  (5, 'SV-L1-001', 'Camiseta PSG Local', 'Jersey de Ligue 1 con diseño moderno.', 949, 450, 4, 4, 1, NULL),
-  (6, 'SV-SA-001', 'Camiseta Inter de Milán', 'Jersey de la Serie A, edición local.', 949, 450, 5, 5, 1, NULL),
-  (7, 'SV-BR-001', 'Camiseta Flamengo', 'Jersey brasileño con colores icónicos.', 899, 420, 6, 6, 1, NULL),
-  (8, 'SV-KL-001', 'Camiseta Kings League', 'Jersey de Kings League, edición fan.', 849, 390, 7, 7, 1, NULL),
-  (9, 'SV-ES-001', 'Jersey Esports Atlas', 'Jersey gamer personalizable con nombre y dorsal.', 849, 380, 8, 8, 1, NULL),
-  (10, 'SV-ES-002', 'Jersey Esports Gaming MX', 'Jersey de equipo esports, ligera y cómoda.', 799, 360, 8, 8, 1, NULL);
+INSERT INTO productos (id, codigo_barras, nombre, descripcion, precio, costo, liga_id, categoria_id, personalizable, imagen, variante) VALUES
+  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, tela transpirable.', 899, 420, 1, 1, 1, NULL, 'local'),
+  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul con acabados de alta calidad.', 899, 420, 1, 1, 1, NULL, 'local'),
+  (3, 'SV-PL-001', 'Camiseta Liverpool Local', 'Jersey oficial inspirado en la Premier League.', 999, 480, 2, 2, 1, NULL, 'local'),
+  (4, 'SV-BL-001', 'Camiseta Bayern Múnich Visitante', 'Jersey visitante de la Bundesliga, corte atlético.', 999, 480, 3, 3, 1, NULL, 'visitante'),
+  (5, 'SV-L1-001', 'Camiseta PSG Local', 'Jersey de Ligue 1 con diseño moderno.', 949, 450, 4, 4, 1, NULL, 'local'),
+  (6, 'SV-SA-001', 'Camiseta Inter de Milán Local', 'Jersey de la Serie A, edición local.', 949, 450, 5, 5, 1, NULL, 'local'),
+  (7, 'SV-BR-001', 'Camiseta Flamengo Visitante', 'Jersey brasileño visitante con colores icónicos.', 899, 420, 6, 6, 1, NULL, 'visitante'),
+  (8, 'SV-KL-001', 'Camiseta Kings League Visitante', 'Jersey de Kings League, edición fan visitante.', 849, 390, 7, 7, 1, NULL, 'visitante'),
+  (9, 'SV-ES-001', 'Jersey Esports Atlas Visitante', 'Jersey gamer personalizable con nombre y dorsal.', 849, 380, 8, 8, 1, NULL, 'visitante'),
+  (10, 'SV-ES-002', 'Jersey Esports Gaming MX Visitante', 'Jersey de equipo esports, ligera y cómoda.', 799, 360, 8, 8, 1, NULL, 'visitante')
+ON CONFLICT(codigo_barras) DO UPDATE SET
+  nombre = excluded.nombre, descripcion = excluded.descripcion, variante = excluded.variante;
 
 -- Existencias por talla. Algunas tallas agotadas para probar la validación del RF-16.
 INSERT OR IGNORE INTO inventario (producto_id, talla_id, existencias) VALUES
