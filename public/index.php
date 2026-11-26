@@ -16,6 +16,20 @@ $ruta = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $ruta = rtrim((string) $ruta, '/') ?: '/';
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
+// Con el servidor integrado de PHP, devolver false permite que sirva directamente
+// los archivos estáticos (CSS, JS, imágenes). En Nginx estos se sirven sin pasar por aquí.
+$archivoSolicitado = realpath(__DIR__ . $ruta);
+$raizPublica = realpath(__DIR__);
+if (
+    $ruta !== '/' &&
+    $archivoSolicitado !== false &&
+    $raizPublica !== false &&
+    str_starts_with($archivoSolicitado, $raizPublica . DIRECTORY_SEPARATOR) &&
+    is_file($archivoSolicitado)
+) {
+    return false;
+}
+
 /**
  * Tabla de rutas: [método HTTP, patrón de URL, controlador, acción].
  * Las rutas estáticas van antes que las dinámicas para evitar ambigüedades.

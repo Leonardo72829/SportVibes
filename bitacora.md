@@ -358,3 +358,22 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Hacer commit y push de esta última documentación; continuar con el despliegue en el VPS cuando el usuario lo indique.
+
+### 2026-11-26 17:46 — Ejecución local y corrección de archivos estáticos
+- **Tipo:** verificación / incidencia resuelta
+- **Descripción:** El usuario pidió correr el sistema en local para verlo. Se inició el servidor integrado de PHP en `127.0.0.1:8000` con `public/` como document root y `public/index.php` como router (PID 7020), y `/health` respondió 200 con SQLite activo. Al abrir la página en el navegador se detectó que el router devolvía HTML para `/css/estilos.css` y `/js/app.js` (MIME `text/html` y 404 en el JS), por lo que la hoja de estilos y el menú móvil no cargaban. Se añadió al inicio del router una comprobación de archivo real dentro de `public/`; si existe, se devuelve `false` para que el servidor integrado lo sirva directamente (Nginx ya lo hace sin pasar por PHP). Tras recargar, CSS y JS devuelven 200 con MIME correcto, la consola no reporta errores y la página muestra el diseño aplicado.
+- **Artefactos:** `public/index.php`, servidor integrado en `http://127.0.0.1:8000`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Registrar la incidencia, hacer commit y push; el servidor queda corriendo para que el usuario explore el sistema.
+
+### 2026-11-26 17:46 — Registro cronológico de actividades de la sesión (parte 6)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 53 | 17:45 | Levantar servidor integrado en el puerto 8000 y comprobar `/health` y `/` | 200 / 200, SQLite local activo |
+| 54 | 17:45 | Abrir el sitio en el navegador y revisar la consola | CSS y JS bloqueados por MIME `text/html`; 404 en `app.js` |
+| 55 | 17:46 | Corregir el router para servir archivos estáticos y recargar | CSS/JS 200, consola sin errores, diseño visible |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Ninguna; el servidor sigue activo en `http://127.0.0.1:8000` mientras dure la sesión.
