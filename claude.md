@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 17:53
+> **Última actualización:** 2026-11-26 18:04
 
 ---
 
@@ -169,7 +169,7 @@ Los 10 módulos ya están implementados en `app/controllers/` con sus vistas en 
 
 **Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` → excluido de Git y del historial; conservado solo en local.
 
-**Resuelta el 2026-11-26:** imágenes de producto → SVG generado por `imagen_producto()` con un mismo diseño para todas las prendas, colores por equipo y etiqueta visible `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` (en ambos esquemas) y se deduce del nombre cuando falta. No se usan librerías ni imágenes externas.
+**Resuelta el 2026-11-26:** imágenes de producto → fotos reales de la temporada 2026/27 (Flamengo 2026) para los siete clubes con galería disponible, descargadas a `public/assets/img/` y documentadas en `docs/FUENTES_IMAGENES.md`. Kings League, Esports Atlas y Esports Gaming MX no son clubes reales: conservan el SVG de `imagen_producto()` con el mismo diseño. Todas usan el mismo marco proporcional y la etiqueta `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` y el archivo en `productos.imagen`. El generador de imágenes falló por credencial inválida, por eso se optó por descarga web con autorización del usuario.
 
 ---
 

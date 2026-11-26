@@ -43,17 +43,17 @@ INSERT INTO direcciones (id, usuario_id, calle, numero_ext, colonia, codigo_post
 ON DUPLICATE KEY UPDATE calle = VALUES(calle);
 
 INSERT INTO productos (id, codigo_barras, nombre, descripcion, precio, costo, liga_id, categoria_id, personalizable, imagen, variante) VALUES
-  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, tela transpirable.', 899, 420, 1, 1, 1, NULL, 'local'),
-  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul con acabados de alta calidad.', 899, 420, 1, 1, 1, NULL, 'local'),
-  (3, 'SV-PL-001', 'Camiseta Liverpool Local', 'Jersey oficial inspirado en la Premier League.', 999, 480, 2, 2, 1, NULL, 'local'),
-  (4, 'SV-BL-001', 'Camiseta Bayern Múnich Visitante', 'Jersey visitante de la Bundesliga, corte atlético.', 999, 480, 3, 3, 1, NULL, 'visitante'),
-  (5, 'SV-L1-001', 'Camiseta PSG Local', 'Jersey de Ligue 1 con diseño moderno.', 949, 450, 4, 4, 1, NULL, 'local'),
-  (6, 'SV-SA-001', 'Camiseta Inter de Milán Local', 'Jersey de la Serie A, edición local.', 949, 450, 5, 5, 1, NULL, 'local'),
-  (7, 'SV-BR-001', 'Camiseta Flamengo Visitante', 'Jersey brasileño visitante con colores icónicos.', 899, 420, 6, 6, 1, NULL, 'visitante'),
+  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-america-local.jpg', 'local'),
+  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-cruz-azul-local.jpg', 'local'),
+  (3, 'SV-PL-001', 'Camiseta Liverpool Local', 'Jersey local del Liverpool FC, temporada 2026/27.', 999, 480, 2, 2, 1, 'camiseta-liverpool-local.webp', 'local'),
+  (4, 'SV-BL-001', 'Camiseta Bayern Múnich Visitante', 'Jersey visitante del Bayern Múnich, temporada 2026/27.', 999, 480, 3, 3, 1, 'camiseta-bayern-visitante.jpg', 'visitante'),
+  (5, 'SV-L1-001', 'Camiseta PSG Local', 'Jersey local del Paris Saint-Germain, temporada 2026/27.', 949, 450, 4, 4, 1, 'camiseta-psg-local.webp', 'local'),
+  (6, 'SV-SA-001', 'Camiseta Inter de Milán Local', 'Jersey local del Inter de Milán, temporada 2026/27.', 949, 450, 5, 5, 1, 'camiseta-inter-local.webp', 'local'),
+  (7, 'SV-BR-001', 'Camiseta Flamengo Visitante', 'Jersey visitante del Flamengo, temporada 2026.', 899, 420, 6, 6, 1, 'camiseta-flamengo-visitante.jpg', 'visitante'),
   (8, 'SV-KL-001', 'Camiseta Kings League Visitante', 'Jersey de Kings League, edición fan visitante.', 849, 390, 7, 7, 1, NULL, 'visitante'),
   (9, 'SV-ES-001', 'Jersey Esports Atlas Visitante', 'Jersey gamer personalizable con nombre y dorsal.', 849, 380, 8, 8, 1, NULL, 'visitante'),
   (10, 'SV-ES-002', 'Jersey Esports Gaming MX Visitante', 'Jersey de equipo esports, ligera y cómoda.', 799, 360, 8, 8, 1, NULL, 'visitante')
-ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), descripcion = VALUES(descripcion), variante = VALUES(variante);
+ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), descripcion = VALUES(descripcion), imagen = VALUES(imagen), variante = VALUES(variante);
 
 INSERT INTO inventario (producto_id, talla_id, existencias) VALUES
   (1,1,8),(1,2,12),(1,3,10),(1,4,5),(1,5,0),

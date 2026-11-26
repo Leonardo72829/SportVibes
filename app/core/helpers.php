@@ -106,9 +106,9 @@ function estadoBadge(string $estado): string
 }
 
 /**
- * Imagen del producto: un mismo diseño de camiseta para todas las prendas.
- * Los colores se eligen según el equipo y la etiqueta indica LOCAL o VISITANTE.
- * Se genera como SVG para no depender de archivos externos ni de librerías.
+ * Imagen del producto. Si hay foto real en `public/assets/img/`, la muestra con
+ * una etiqueta LOCAL/VISITANTE; si no, genera un SVG con el mismo diseño para
+ * las prendas ficticias. En ambos casos se mantiene el mismo encuadre.
  */
 function imagen_producto(array $producto): string
 {
@@ -121,10 +121,25 @@ function imagen_producto(array $producto): string
     $visitante = $guardada !== ''
         ? str_contains($guardada, 'visitante')
         : str_contains($texto, 'visitante') && !str_contains($texto, 'local');
+    $etiqueta = $visitante ? 'VISITANTE' : 'LOCAL';
 
     $equipo = preg_replace('/^(camiseta|jersey)\s+/iu', '', $nombre) ?? $nombre;
     $equipo = preg_replace('/\s+(edici[oó]n\s+)?(local|visitante)\s*$/iu', '', $equipo) ?? $equipo;
     $equipo = mb_substr(trim($equipo), 0, 16);
+
+    // Foto real del club: se guarda en productos.imagen y se sirve desde public/.
+    $archivo = basename((string) ($producto['imagen'] ?? ''));
+    if ($archivo !== '' && $archivo !== '.') {
+        $ruta = dirname(__DIR__, 2) . '/public/assets/img/' . $archivo;
+        if (is_file($ruta)) {
+            $alt = e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
+            $clase = $visitante ? 'visitante' : 'local';
+            return '<span class="imagen-producto imagen-producto--foto">'
+                . '<img src="' . e(url('assets/img/' . rawurlencode($archivo))) . '" alt="' . $alt . '" loading="lazy">'
+                . '<span class="etiqueta-variante etiqueta-variante--' . $clase . '">' . e($etiqueta) . '</span>'
+                . '</span>';
+        }
+    }
 
     $paletas = [
         'américa' => ['#f5d20a', '#143b8c', '#ffffff'],
@@ -159,7 +174,6 @@ function imagen_producto(array $producto): string
     };
     $colorTexto = $contraste($base);
     $colorFranjaTexto = $contraste($franja);
-    $etiqueta = $visitante ? 'VISITANTE' : 'LOCAL';
     $colorEtiqueta = $visitante ? '#5aa0ff' : '#b6ff3c';
     $colorEtiquetaTexto = $visitante ? '#081226' : '#0d1408';
     $inicial = mb_substr($equipo, 0, 1);

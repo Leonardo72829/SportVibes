@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 17:53
+> **Última actualización:** 2026-11-26 18:04
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -17,7 +17,7 @@
 | Idioma del proyecto | Español |
 | Stack | HTML, CSS y JavaScript puro / PHP / MySQL / VPS Linux / Git y GitHub |
 | PHP local para pruebas | PHP 8.4.28 NTS x64, instalación portátil en `C:\Users\sanch\AppData\Local\Programs\PHP\php-8.4.28` |
-| Estado actual | Sistema web completo implementado (24 RF) con SQLite local y MySQL para producción; sintaxis y flujos HTTP verificados; rama `main` publicada en GitHub; PDF de avance excluido de Git; pendiente el despliegue en VPS y credenciales SMTP reales |
+| Estado actual | Sistema web completo implementado (24 RF) con SQLite local y MySQL para producción; sintaxis y flujos HTTP verificados; fotos reales de 7 clubes y SVG en 3 artículos ficticios; rama `main` publicada en GitHub; PDF de avance excluido de Git; pendiente el despliegue en VPS y credenciales SMTP reales |
 | Repositorio en GitHub | https://github.com/Leonardo72829/SportVibes (público, rama `main`, `origin` configurado) |
 
 ---
@@ -398,3 +398,35 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Hacer commit y push de la mejora.
+
+### 2026-11-26 18:04 — Fotos reales de la temporada actual para los clubes del catálogo
+- **Tipo:** mejora funcional / incidencia técnica resuelta
+- **Descripción:** El usuario pidió sustituir las ilustraciones por imágenes reales como la de referencia, con los jerseys de la temporada actual y adaptados proporcionalmente al mismo diseño. El modelo de generación de imágenes no pudo leer la referencia directamente y las 10 solicitudes al generador fallaron con `Invalid credential`; se consultó al usuario, quien eligió buscar y descargar imágenes de la web. Se localizaron galerías públicas de FootyLogos con fotografías oficiales de la temporada 2026/27 (Flamengo 2026) y se descargaron siete imágenes: América, Cruz Azul, Liverpool, Bayern visitante, PSG, Inter y Flamengo visitante. Como Kings League, Esports Atlas y Esports Gaming MX no son clubes reales, se preguntó al usuario y decidió conservar su SVG. `imagen_producto()` ahora muestra la foto cuando `productos.imagen` apunta a un archivo existente en `public/assets/img/`, con una insignia HTML de LOCAL/VISITANTE, y mantiene el SVG como respaldo. Se añadieron los nombres de archivo a ambos seeds, se normalizó el marco de las tarjetas a `4 / 5` con `object-fit: contain`, se reinicializó la SQLite y se regeneró `migracion_datos.sql`. Verificación: 7 fotos cargadas con `naturalWidth > 0`, 3 SVG restantes, 5 etiquetas LOCAL y 2 VISITANTE entre las fotos (más 3 visitantes en SVG), sin errores de consola y detalle de Bayern con imagen y etiqueta correctas. Las fuentes y el aviso de derechos quedaron en `docs/FUENTES_IMAGENES.md`.
+- **Artefactos:** `public/assets/img/camiseta-*.jpg/.webp`, `app/core/helpers.php`, `public/css/estilos.css`, `database/seed.sqlite.sql`, `database/seed.sql`, `docs/FUENTES_IMAGENES.md`, `database/migracion_datos.sql`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Registrar la decisión, hacer commit y push; para uso comercial, sustituir las fotos por imágenes licenciadas.
+
+### 2026-11-26 18:04 — Registro cronológico de actividades de la sesión (parte 8)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 61 | 17:58 | Revisar la imagen de referencia adjunta | El modelo no puede ver imágenes; se usa como referencia para el generador |
+| 62 | 17:59 | Intentar generar 10 jerseys reales con la imagen de guía | Fallo `Invalid credential` en los 10 trabajos |
+| 63 | 18:00 | Preguntar al usuario de dónde obtener las fotos | Eligió buscar y descargar de la web |
+| 64 | 18:01 | Buscar galerías con fotos oficiales 2026/27 | FootyLogos con imágenes accesibles para 7 clubes |
+| 65 | 18:02 | Descargar y verificar 7 imágenes reales | JPG/WebP válidos, 21 KB–230 KB cada una |
+| 66 | 18:02 | Preguntar qué hacer con los 3 artículos ficticios | Eligió conservar SVG en esos 3 |
+| 67 | 18:03 | Integrar fotos en el helper, CSS y seeds; documentar fuentes | 7 fotos + 3 SVG con etiqueta local/visitante |
+| 68 | 18:03 | Reinicializar SQLite y regenerar exportación MySQL | Base y `migracion_datos.sql` con `imagen` y `variante` |
+| 69 | 18:04 | Verificar catálogo y detalle en el navegador | 7/7 fotos cargadas, sin errores, marco 321×402 |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Hacer commit y push de las fotos, el código y la documentación.
+
+### 2026-11-26 18:05 — Publicación de las fotos reales en GitHub
+- **Tipo:** trazabilidad
+- **Descripción:** Se verificó `php -l` en `app/core/helpers.php`, `database/inicializar.php` y `database/migrar_sqlite_a_mysql.php`, todos sin errores. El estado de Git solo contenía los archivos esperados: código, hojas de estilo, seeds, documentación y las siete imágenes. Se creó el commit local `43c07c9` con mensaje `feat: fotos reales 2026/27 con etiqueta local/visitante`. No se versionaron secretos ni la base SQLite; `migracion_datos.sql` sigue excluido por `.gitignore`.
+- **Artefactos:** commit `43c07c9`, rama `main`, repositorio `https://github.com/Leonardo72829/SportVibes.git`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Subir la rama `main` a `origin`.
