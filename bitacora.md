@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 22:09
+> **Última actualización:** 2026-11-26 22:12
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -510,3 +510,11 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Ninguna; las imágenes quedan listas para la revisión visual del usuario.
+
+### 2026-11-26 22:12 — Publicación del cambio de imágenes
+
+- **Tipo:** control de versiones / trazabilidad
+- **Descripción:** Se verificó el árbol de trabajo antes de subir, se confirmó que solo estaban incluidos los archivos de imagen, semillas, documentación y bitácora, y se publicó el cambio en la rama `main` de GitHub con el commit `05082f8` («Unificar imágenes de producto con fondo transparente»). No se versionaron secretos, correos capturados ni el export `database/migracion_datos.sql`.
+- **Artefactos:** commit `05082f8`, `origin/main`
+- **Responsable:** Agente de IA
+- **Acción derivada:** El registro de esta publicación se conserva en el commit siguiente; el repositorio queda sincronizado con GitHub.
