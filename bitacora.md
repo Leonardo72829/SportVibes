@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 22:20
+> **Última actualización:** 2026-11-26 23:12
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -540,3 +540,16 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Para volver a revisar el sitio en local, iniciar de nuevo `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto.
+
+### 2026-11-26 23:12 — Tercer reinicio del servidor local
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 88 | 23:12 | Solicitar el reinicio del servidor local | Servidor iniciado en segundo plano, PID 24464 |
+| 89 | 23:12 | Verificar rutas `/health`, `/catalogo` y `/producto/1` | Las tres devuelven 200 |
+
+- **Tipo:** trazabilidad / entorno de desarrollo
+- **Descripción:** El usuario pidió volver a levantar el servidor. Se inició `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto en segundo plano y se comprobó que `/health`, `/catalogo` y `/producto/1` responden con código 200. El sitio vuelve a estar disponible en `http://127.0.0.1:8000` para revisar las imágenes de producto.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Pendiente de que el usuario envíe las nuevas imágenes de las equipaciones para reemplazar las actuales.
