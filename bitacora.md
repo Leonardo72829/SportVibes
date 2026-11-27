@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 12:47
+> **Última actualización:** 2026-11-27 12:54
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -585,3 +585,17 @@ Formato para nuevas entradas:
 - **Artefactos:** `public/assets/img/`, `database/schema.sql`, `database/schema.sqlite.sql`, `database/seed.sql`, `database/seed.sqlite.sql`, `database/migracion_datos.sql`, `app/core/helpers.php`, `app/views/inicio.php`, `.gitignore`, `README.md`, `claude.md`, `docs/FUENTES_IMAGENES.md`, `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Publicar el cambio en `main`; pendientes el despliegue en VPS, credenciales SMTP reales y licencias de uso comercial de las imágenes.
+
+### 2026-11-27 12:54 — Cierre controlado del servidor local
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 100 | 12:52 | Solicitar registrar todo en la bitácora y cerrar la sesión del servidor | Entrada de las 12:47 (ítems 93-99) ya presente; repositorio sin cambios pendientes |
+| 101 | 12:53 | Detener el servidor PHP (proceso real 14472, iniciado por el envoltorio 7508) | Proceso finalizado; la tarea en segundo plano concluyó al ser interrumpida |
+| 102 | 12:54 | Verificar puerto 8000 y ruta `/health` | Sin proceso `php -S`, sin estado `Listen` y sin respuesta HTTP |
+
+- **Tipo:** trazabilidad / entorno de desarrollo
+- **Descripción:** El usuario pidió registrar todo en la bitácora y, después, cerrar la sesión del servidor. Se comprobó que la renovación del catálogo ya estaba asentada en la entrada de las 12:47 (ítems 93-99) y publicada en `main` con el commit `5ded43a`. A continuación se detuvo de forma controlada el servidor de desarrollo de `http://127.0.0.1:8000`: se finalizó el proceso PHP real 14472 y su proceso envoltorio 7508; la tarea en segundo plano terminó con código 1 al ser interrumpida, comportamiento esperado. Se verificó que no queda ningún proceso `php -S 127.0.0.1:8000`, que el puerto 8000 no tiene conexiones en estado `Listen` y que `/health` ya no responde. No se modificó código; el único artefacto nuevo de esta actividad es esta entrada.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Para volver a revisar el sitio localmente, reiniciar con `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto. El sitio permanece apagado hasta nueva solicitud.
