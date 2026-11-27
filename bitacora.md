@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 18:11
+> **Última actualización:** 2026-11-26 20:08
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -449,3 +449,22 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Ninguna; sesión cerrada según lo solicitado.
+
+### 2026-11-26 20:08 — Reinicio del servidor local tras reinicio del entorno
+- **Tipo:** incidencia técnica resuelta / verificación
+- **Descripción:** Después de reiniciarse el servidor del entorno se canceló una tarea en segundo plano y el puerto 8000 quedó libre, por lo que la página dejó de responder. El usuario pidió correrla de nuevo. El primer intento de arranque se terminó prematuramente porque se usó un temporizador de 1 segundo; se reinició con un tiempo de ejecución ampliado y el servidor integrado de PHP quedó activo en `http://127.0.0.1:8000` (PID 14948), con `public/` como document root y `public/index.php` como router. Verificación HTTP: `/`, `/catalogo` y `/producto/4` devuelven 200 `text/html`; `/health` devuelve 200 `application/json`; `/css/estilos.css` devuelve 200 `text/css`; `/assets/img/camiseta-america-local.jpg` devuelve 200 `image/jpeg`.
+- **Artefactos:** servidor integrado en `http://127.0.0.1:8000`, `public/index.php`, `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Registrar el reinicio y subir el cambio; el servidor permanece activo mientras dure el entorno.
+
+### 2026-11-26 20:08 — Registro cronológico de actividades de la sesión (parte 10)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 73 | 20:08 | Detectar que el puerto 8000 estaba libre tras el reinicio | Sin respuesta HTTP |
+| 74 | 20:08 | Reiniciar el servidor PHP con temporizador ampliado | Servidor activo, PID 14948 |
+| 75 | 20:08 | Verificar rutas principales, CSS y foto real | Todas devuelven 200 con MIME correcto |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Ninguna; página disponible en `http://127.0.0.1:8000`.
