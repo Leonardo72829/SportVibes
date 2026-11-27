@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 23:12
+> **Última actualización:** 2026-11-27 12:14
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -553,3 +553,17 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Pendiente de que el usuario envíe las nuevas imágenes de las equipaciones para reemplazar las actuales.
+
+### 2026-11-27 12:14 — Cuarto reinicio del servidor local (plazo ampliado)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 90 | 00:14 | Vencimiento del plazo de una hora del servidor anterior | Proceso terminado con SIGTERM; puerto 8000 libre |
+| 91 | 12:13 | Solicitar reactivación del servidor | Nuevo proceso en segundo plano, PID 7508 |
+| 92 | 12:14 | Verificar rutas `/health`, `/catalogo` y `/producto/1` | Las tres devuelven 200 |
+
+- **Tipo:** trazabilidad / entorno de desarrollo
+- **Descripción:** El servidor iniciado el 26 de noviembre a las 23:12 se detuvo automáticamente al vencer el plazo de 3600 segundos (00:14 del 27 de noviembre). El usuario pidió activarlo de nuevo. Se comprobó que el puerto 8000 estaba libre y se inició `php -S 127.0.0.1:8000 -t public public/index.php` con un plazo ampliado a 24 horas (PID 7508). Las rutas `/health`, `/catalogo` y `/producto/1` responden con código 200. El sitio vuelve a estar disponible en `http://127.0.0.1:8000`.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** El servidor seguirá activo hasta el 28 de noviembre aproximadamente a las 12:13; cuando venza, reiniciarlo con el mismo comando. Pendiente de las nuevas imágenes de las equipaciones.
