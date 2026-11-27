@@ -36,13 +36,13 @@ INSERT OR IGNORE INTO direcciones (id, usuario_id, calle, numero_ext, colonia, c
   (1, 1, 'Av. Reforma', '123', 'Juárez', '06600', 'Ciudad de México', 'CDMX', 'Portón azul');
 
 INSERT INTO productos (id, codigo_barras, nombre, descripcion, precio, costo, liga_id, categoria_id, personalizable, imagen, variante) VALUES
-  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-america-local.jpg', 'local'),
-  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-cruz-azul-local.jpg', 'local'),
+  (1, 'SV-LMX-001', 'Camiseta América Local', 'Jersey local del Club América, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-america-local.png', 'local'),
+  (2, 'SV-LMX-002', 'Camiseta Cruz Azul Local', 'Jersey local de Cruz Azul, temporada 2026/27.', 899, 420, 1, 1, 1, 'camiseta-cruz-azul-local.png', 'local'),
   (3, 'SV-PL-001', 'Camiseta Liverpool Local', 'Jersey local del Liverpool FC, temporada 2026/27.', 999, 480, 2, 2, 1, 'camiseta-liverpool-local.webp', 'local'),
-  (4, 'SV-BL-001', 'Camiseta Bayern Múnich Visitante', 'Jersey visitante del Bayern Múnich, temporada 2026/27.', 999, 480, 3, 3, 1, 'camiseta-bayern-visitante.jpg', 'visitante'),
+  (4, 'SV-BL-001', 'Camiseta Bayern Múnich Visitante', 'Jersey visitante del Bayern Múnich, temporada 2026/27.', 999, 480, 3, 3, 1, 'camiseta-bayern-visitante.png', 'visitante'),
   (5, 'SV-L1-001', 'Camiseta PSG Local', 'Jersey local del Paris Saint-Germain, temporada 2026/27.', 949, 450, 4, 4, 1, 'camiseta-psg-local.webp', 'local'),
   (6, 'SV-SA-001', 'Camiseta Inter de Milán Local', 'Jersey local del Inter de Milán, temporada 2026/27.', 949, 450, 5, 5, 1, 'camiseta-inter-local.webp', 'local'),
-  (7, 'SV-BR-001', 'Camiseta Flamengo Visitante', 'Jersey visitante del Flamengo, temporada 2026.', 899, 420, 6, 6, 1, 'camiseta-flamengo-visitante.jpg', 'visitante'),
+  (7, 'SV-BR-001', 'Camiseta Flamengo Visitante', 'Jersey visitante del Flamengo, temporada 2026.', 899, 420, 6, 6, 1, 'camiseta-flamengo-visitante.png', 'visitante'),
   (8, 'SV-KL-001', 'Camiseta Kings League Visitante', 'Jersey de Kings League, edición fan visitante.', 849, 390, 7, 7, 1, NULL, 'visitante'),
   (9, 'SV-ES-001', 'Jersey Esports Atlas Visitante', 'Jersey gamer personalizable con nombre y dorsal.', 849, 380, 8, 8, 1, NULL, 'visitante'),
   (10, 'SV-ES-002', 'Jersey Esports Gaming MX Visitante', 'Jersey de equipo esports, ligera y cómoda.', 799, 360, 8, 8, 1, NULL, 'visitante')

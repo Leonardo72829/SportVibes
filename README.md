@@ -68,7 +68,7 @@ Abrir `http://127.0.0.1:8000`. `GET /health` devuelve un JSON con el estado de l
 
 ### Imágenes de producto
 
-Las siete prendas de clubes reales muestran una **foto real** de la temporada 2026/27 (Flamengo 2026) guardada en `public/assets/img/`. Las tres prendas ficticias (Kings League y los dos esports) conservan una ilustración SVG con el mismo diseño. En ambos casos se usa el mismo marco proporcional y una insignia visible **LOCAL** o **VISITANTE**. La variante viene de `productos.variante` y, si falta, se deduce del nombre; el nombre del archivo se guarda en `productos.imagen`. Las fotos y sus fuentes están documentadas en `docs/FUENTES_IMAGENES.md`; para uso comercial deben sustituirse por imágenes propias o licenciadas.
+Las siete prendas de clubes reales muestran la **equipación de temporada 2026/27** (Flamengo 2026) sobre fondo transparente, guardada en `public/assets/img/` como WebP o PNG. Las tres prendas ficticias (Kings League y los dos esports) conservan una ilustración SVG con el mismo diseño. En ambos casos se usa el mismo marco proporcional y una insignia visible **LOCAL** o **VISITANTE**. La variante viene de `productos.variante` y, si falta, se deduce del nombre; el nombre del archivo se guarda en `productos.imagen`. Las fotos y sus fuentes están documentadas en `docs/FUENTES_IMAGENES.md`; para uso comercial deben sustituirse por imágenes propias o licenciadas.
 
 ### Cuentas de demostración
 

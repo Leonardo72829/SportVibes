@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 21:08
+> **Última actualización:** 2026-11-26 22:09
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -487,3 +487,26 @@ Formato para nuevas entradas:
 - **Tipo:** trazabilidad
 - **Responsable:** Agente de IA
 - **Acción derivada:** Ninguna; página disponible en `http://127.0.0.1:8000`.
+
+### 2026-11-26 22:09 — Unificar el estilo de las siete equipaciones con fondo transparente
+
+- **Tipo:** decisión de diseño / cambio de recursos visuales / trazabilidad
+- **Descripción:** El usuario pidió tomar como referencia el estilo de la camiseta de Liverpool para el resto de las imágenes, porque cada una tenía un diseño distinto y le gustaba que solo se viera la prenda sobre fondo transparente. Preguntó si debía enviar las fotos para evitar descargas de páginas dudosas y autorizó buscarlas solo si era seguro. Se inspeccionó el PNG adjunto (1371×787, canal alfa) y se aclaró que era una composición ancha, no una camiseta aislada; el usuario eligió la opción «Solo camiseta transparente» y confirmó que las tres imágenes WebP existentes (Liverpool, PSG e Inter) ya servían. No se instaló ningún software. Se descartaron los candidatos de `dreamleaguesoccerkits.com` para América y Cruz Azul porque tenían el fondo opaco; se continuó hasta encontrar versiones transparentes en `dlslogo.com`. Las cuatro imágenes finales se validaron como PNG de 512×512 con esquinas en alfa 0 y se comprobó su color dominante: América amarillo/azul, Cruz Azul azul, Bayern blanco y Flamengo blanco. Se reemplazaron los cuatro JPG por `camiseta-america-local.png`, `camiseta-cruz-azul-local.png`, `camiseta-bayern-visitante.png` y `camiseta-flamengo-visitante.png`; se eliminaron los JPG antiguos y la copia temporal de la referencia. Se actualizaron la base SQLite local, `database/seed.sql`, `database/seed.sqlite.sql` y el export generado `database/migracion_datos.sql`. Se documentaron las nuevas fuentes en `docs/FUENTES_IMAGENES.md` y el cambio de redacción en `README.md` y `CLAUDE.md`.
+- **Artefactos:** `public/assets/img/camiseta-america-local.png`, `public/assets/img/camiseta-cruz-azul-local.png`, `public/assets/img/camiseta-bayern-visitante.png`, `public/assets/img/camiseta-flamengo-visitante.png`, `database/seed.sql`, `database/seed.sqlite.sql`, `database/migracion_datos.sql` (no versionado), `docs/FUENTES_IMAGENES.md`, `README.md`, `CLAUDE.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Verificar las rutas HTTP y el renderizado en el navegador; conservar el aviso de derechos para uso académico y sustituir las imágenes por propias o licenciadas si el proyecto pasa a uso comercial.
+
+### 2026-11-26 22:09 — Registro cronológico de actividades de la sesión (parte 12)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 79 | 22:00 | Recibir la referencia visual y revisar sus datos técnicos | PNG 1371×787 con transparencia; composición ancha |
+| 80 | 22:05 | Comprobar transparencia de las siete imágenes anteriores | Liverpool, PSG e Inter ya tenían alfa; las otras cuatro no |
+| 81 | 22:08 | Preguntar el resultado deseado y confirmar el alcance | Usuario eligió solo camiseta transparente y aceptó las tres actuales |
+| 82 | 22:09 | Buscar y validar PNG transparentes en fuentes conocidas | Cuatro PNG 512×512 con esquinas alfa 0 |
+| 83 | 22:09 | Reemplazar archivos, base de datos, semillas y documentación | Siete equipaciones con fondo transparente |
+| 84 | 22:09 | Verificar rutas HTTP y renderizado | Sin errores de consola; imágenes servidas desde el proyecto |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
+- **Acción derivada:** Ninguna; las imágenes quedan listas para la revisión visual del usuario.

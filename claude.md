@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 18:04
+> **Última actualización:** 2026-11-26 22:09
 
 ---
 
@@ -169,7 +169,7 @@ Los 10 módulos ya están implementados en `app/controllers/` con sus vistas en 
 
 **Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` → excluido de Git y del historial; conservado solo en local.
 
-**Resuelta el 2026-11-26:** imágenes de producto → fotos reales de la temporada 2026/27 (Flamengo 2026) para los siete clubes con galería disponible, descargadas a `public/assets/img/` y documentadas en `docs/FUENTES_IMAGENES.md`. Kings League, Esports Atlas y Esports Gaming MX no son clubes reales: conservan el SVG de `imagen_producto()` con el mismo diseño. Todas usan el mismo marco proporcional y la etiqueta `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` y el archivo en `productos.imagen`. El generador de imágenes falló por credencial inválida, por eso se optó por descarga web con autorización del usuario.
+**Resuelta el 2026-11-26:** imágenes de producto → equipaciones de temporada 2026/27 (Flamengo 2026) con **fondo transparente y solo la prenda**, guardadas en `public/assets/img/` y documentadas en `docs/FUENTES_IMAGENES.md`. El usuario tomó como referencia visual la camiseta de Liverpool y pidió el mismo estilo para todas; confirmó que Liverpool, PSG e Inter ya sirven y autorizó buscar las cuatro restantes en fuentes conocidas. América, Cruz Azul, Bayern y Flamengo se reemplazaron por PNG transparentes 512×512 de DLS Logo; las tres primeras siguen en WebP con alfa de FootyLogos. Kings League, Esports Atlas y Esports Gaming MX no son clubes reales: conservan el SVG de `imagen_producto()` con el mismo diseño. Todas usan el mismo marco proporcional y la etiqueta `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` y el archivo en `productos.imagen`. El generador de imágenes falló por credencial inválida, por eso se optó por descarga web con autorización del usuario.
 
 ---
 
