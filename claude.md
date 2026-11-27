@@ -2,7 +2,7 @@
 
 > Archivo de memoria para asistentes de IA (Claude u otros agentes) que trabajen en este proyecto.
 > Se lee al iniciar una sesión y se actualiza cuando cambian las decisiones técnicas o el equipo.
-> **Última actualización:** 2026-11-26 22:09
+> **Última actualización:** 2026-11-27 12:45
 
 ---
 
@@ -20,7 +20,7 @@
 
 **SportVibes** es una plataforma **web** de comercio electrónico para la venta de **ropa deportiva y personalizada de fútbol y Esports**. El cliente puede conocer los productos, elegir talla, personalizar nombre y dorsal, y comprar sin acudir a una tienda física.
 
-**Categorías del catálogo:** Liga MX, Premier League, Bundesliga, Ligue 1, Serie A, Brasil A, Kings League y Esports.
+**Categorías del catálogo:** Liga MX, Premier League, Bundesliga, Ligue 1, Serie A, Brasil A y Esports. Kings League fue eliminada el 2026-11-27 por falta de playeras de sus equipos. Hay **tres equipos por liga** (21 productos en total).
 
 **Actores del sistema**
 
@@ -169,7 +169,9 @@ Los 10 módulos ya están implementados en `app/controllers/` con sus vistas en 
 
 **Resuelta el 2026-11-26:** `SportVibes AVANCE.pdf` → excluido de Git y del historial; conservado solo en local.
 
-**Resuelta el 2026-11-26:** imágenes de producto → equipaciones de temporada 2026/27 (Flamengo 2026) con **fondo transparente y solo la prenda**, guardadas en `public/assets/img/` y documentadas en `docs/FUENTES_IMAGENES.md`. El usuario tomó como referencia visual la camiseta de Liverpool y pidió el mismo estilo para todas; confirmó que Liverpool, PSG e Inter ya sirven y autorizó buscar las cuatro restantes en fuentes conocidas. América, Cruz Azul, Bayern y Flamengo se reemplazaron por PNG transparentes 512×512 de DLS Logo; las tres primeras siguen en WebP con alfa de FootyLogos. Kings League, Esports Atlas y Esports Gaming MX no son clubes reales: conservan el SVG de `imagen_producto()` con el mismo diseño. Todas usan el mismo marco proporcional y la etiqueta `LOCAL`/`VISITANTE`. La variante se guarda en `productos.variante` y el archivo en `productos.imagen`. El generador de imágenes falló por credencial inválida, por eso se optó por descarga web con autorización del usuario.
+**Resuelta el 2026-11-26 (sustituida en parte el 2026-11-27):** imágenes de producto → equipaciones de temporada 2026/27 (Flamengo 2026) con **fondo transparente y solo la prenda**, guardadas en `public/assets/img/` y documentadas en `docs/FUENTES_IMAGENES.md`. El usuario tomó como referencia visual la camiseta de Liverpool y pidió el mismo estilo para todas; confirmó que Liverpool, PSG e Inter ya sirven y autorizó buscar las cuatro restantes en fuentes conocidas. América, Cruz Azul, Bayern y Flamengo se reemplazaron por PNG transparentes 512×512 de DLS Logo; las tres primeras siguen en WebP con alfa de FootyLogos. El generador de imágenes falló por credencial inválida, por eso se optó por descarga web con autorización del usuario.
+
+**Resuelta el 2026-11-27:** el usuario entregó la carpeta `Imagenes Sportvibes/` con 18 playeras y pidió **eliminar Kings League** por falta de playeras de sus equipos, dar de alta los equipos faltantes y dejar **tres equipos por liga**. Se conservaron Liverpool, PSG e Inter y se normalizaron las 18 imágenes nuevas en `public/assets/img/`: 21 productos en total, siete ligas y ningún producto de Kings League. Los equipos de fútbol mantienen la etiqueta `LOCAL`/`VISITANTE`; los tres de Esports (Gen.G/LCK, Leviatán/CBLOL-LTA South y T1/LCK) usan `productos.variante = 'unica'` y **no muestran etiqueta** porque solo hay una playera. La carpeta original se ignora en Git; las copias normalizadas sí se versionan. Todas las imágenes se validaron por MIME, canal alfa y esquinas transparentes antes de guardarse.
 
 ---
 

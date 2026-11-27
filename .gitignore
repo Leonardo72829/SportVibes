@@ -9,6 +9,10 @@ public/uploads/*
 # Documento de avance pesado (68 MB): se mantiene local, no se sube a GitHub
 docs/SportVibes AVANCE.pdf
 
+# Imágenes originales entregadas por el usuario: se versionan solo las copias
+# normalizadas en public/assets/img/
+Imagenes Sportvibes/
+
 # Base de datos local y exportaciones (pueden contener datos de clientes)
 database/*.sqlite
 database/*.sqlite-journal

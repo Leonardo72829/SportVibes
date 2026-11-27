@@ -65,7 +65,8 @@ CREATE TABLE IF NOT EXISTS productos (
   categoria_id INT UNSIGNED NULL,
   personalizable TINYINT(1) NOT NULL DEFAULT 0,
   imagen VARCHAR(255) NULL,
-  variante ENUM('local', 'visitante') NOT NULL DEFAULT 'local',
+  -- 'unica' se usa en Esports: una sola playera sin etiqueta LOCAL/VISITANTE.
+  variante ENUM('local', 'visitante', 'unica') NOT NULL DEFAULT 'local',
   activo TINYINT(1) NOT NULL DEFAULT 1,
   fecha_alta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),

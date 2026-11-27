@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 12:14
+> **Última actualización:** 2026-11-27 12:47
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -567,3 +567,21 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** El servidor seguirá activo hasta el 28 de noviembre aproximadamente a las 12:13; cuando venza, reiniciarlo con el mismo comando. Pendiente de las nuevas imágenes de las equipaciones.
+
+### 2026-11-27 12:47 — Catálogo con 21 productos, tres equipos por liga y imágenes del usuario
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 93 | 12:20 | Localizar la carpeta `Imagenes Sportvibes/` y listar su contenido | 18 imágenes nuevas |
+| 94 | 12:25 | Validar MIME, dimensiones y canal alfa de las 18 imágenes | Todas son PNG o WebP con transparencia y esquinas alfa 0 |
+| 95 | 12:30 | Investigar la liga de los equipos Esports | Gen.G y T1 → LCK; Leviatán → CBLOL/LTA South; agrupados en la liga comercial Esports |
+| 96 | 12:35 | Copiar y normalizar las imágenes a `public/assets/img/` | 18 copias nuevas; se conservaron Liverpool, PSG e Inter; se eliminaron cuatro PNG anteriores |
+| 97 | 12:40 | Eliminar Kings League y dar de alta los equipos faltantes | 7 ligas, 21 productos, exactamente 3 por liga |
+| 98 | 12:42 | Ajustar esquemas, semillas, helper de imagen y documentación | Variante `unica` sin etiqueta LOCAL/VISITANTE en Esports |
+| 99 | 12:45 | Verificar base, sintaxis PHP, rutas HTTP y catálogo en navegador | 21/21 productos con imagen, 21 respuestas 200, catálogo sin errores ni rastro de Kings League |
+
+- **Tipo:** catálogo / imágenes / base de datos / documentación
+- **Descripción:** El usuario entregó la carpeta `Imagenes Sportvibes/` con 18 playeras, pidió eliminar Kings League por falta de jerseys de sus equipos, dar de alta los equipos que faltaban y dejar tres equipos distintos por liga. Se validaron las 18 imágenes con `finfo_file()` (MIME `image/png` o `image/webp`), se comprobó el canal alfa en el encabezado y en un lienzo HTML las cuatro esquinas transparentes, y se copiaron con nombres normalizados a `public/assets/img/`. Se conservaron las tres imágenes que ya servían (Liverpool, PSG e Inter) y se retiraron los cuatro PNG sustituidos. La base SQLite local quedó con siete ligas (Liga MX, Premier League, Bundesliga, Ligue 1, Serie A, Brasil A y Esports) y 21 productos: tres por liga. Se agregaron Aston Villa, Manchester City, Santos Laguna, Dortmund, Leverkusen, Lens, Lyon, Milan, Roma, Fluminense y Palmeiras; en Esports se dieron de alta Gen.G, Leviatán y T1 con una sola playera cada uno (`variante = 'unica'`, sin insignia LOCAL/VISITANTE). Se actualizaron `database/schema.sql`, `database/schema.sqlite.sql`, `database/seed.sql` y `database/seed.sqlite.sql`; se regeneró `database/migracion_datos.sql` (no versionado). `imagen_producto()` ahora omite la etiqueta en la variante única; `app/views/inicio.php`, `README.md`, `claude.md` y `docs/FUENTES_IMAGENES.md` reflejan el nuevo catálogo. La carpeta original se añadió a `.gitignore`. Verificación: 21 productos con archivo de imagen existente, sintaxis PHP correcta, `/catalogo` y 21 rutas `/producto/{id}` con HTTP 200, 21 tarjetas en el navegador (18 con etiqueta y 3 de Esports sin ella), sin imágenes rotas y sin texto de Kings League.
+- **Artefactos:** `public/assets/img/`, `database/schema.sql`, `database/schema.sqlite.sql`, `database/seed.sql`, `database/seed.sqlite.sql`, `database/migracion_datos.sql`, `app/core/helpers.php`, `app/views/inicio.php`, `.gitignore`, `README.md`, `claude.md`, `docs/FUENTES_IMAGENES.md`, `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Publicar el cambio en `main`; pendientes el despliegue en VPS, credenciales SMTP reales y licencias de uso comercial de las imágenes.

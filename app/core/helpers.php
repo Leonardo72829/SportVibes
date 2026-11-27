@@ -107,8 +107,9 @@ function estadoBadge(string $estado): string
 
 /**
  * Imagen del producto. Si hay foto real en `public/assets/img/`, la muestra con
- * una etiqueta LOCAL/VISITANTE; si no, genera un SVG con el mismo diseño para
- * las prendas ficticias. En ambos casos se mantiene el mismo encuadre.
+ * una etiqueta LOCAL/VISITANTE; en Esports (variante 'unica') no lleva etiqueta
+ * porque solo existe una playera. Si no hay foto, genera un SVG con el mismo diseño.
+ * En todos los casos se mantiene el mismo encuadre.
  */
 function imagen_producto(array $producto): string
 {
@@ -118,10 +119,11 @@ function imagen_producto(array $producto): string
 
     // Si el producto trae la variante guardada, esa manda; si no, se deduce del nombre.
     $guardada = mb_strtolower((string) ($producto['variante'] ?? ''));
-    $visitante = $guardada !== ''
+    $unica = str_contains($guardada, 'unica');
+    $visitante = !$unica && ($guardada !== ''
         ? str_contains($guardada, 'visitante')
-        : str_contains($texto, 'visitante') && !str_contains($texto, 'local');
-    $etiqueta = $visitante ? 'VISITANTE' : 'LOCAL';
+        : str_contains($texto, 'visitante') && !str_contains($texto, 'local'));
+    $etiqueta = $unica ? '' : ($visitante ? 'VISITANTE' : 'LOCAL');
 
     $equipo = preg_replace('/^(camiseta|jersey)\s+/iu', '', $nombre) ?? $nombre;
     $equipo = preg_replace('/\s+(edici[oó]n\s+)?(local|visitante)\s*$/iu', '', $equipo) ?? $equipo;
@@ -132,12 +134,16 @@ function imagen_producto(array $producto): string
     if ($archivo !== '' && $archivo !== '.') {
         $ruta = dirname(__DIR__, 2) . '/public/assets/img/' . $archivo;
         if (is_file($ruta)) {
-            $alt = e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
-            $clase = $visitante ? 'visitante' : 'local';
-            return '<span class="imagen-producto imagen-producto--foto">'
-                . '<img src="' . e(url('assets/img/' . rawurlencode($archivo))) . '" alt="' . $alt . '" loading="lazy">'
-                . '<span class="etiqueta-variante etiqueta-variante--' . $clase . '">' . e($etiqueta) . '</span>'
-                . '</span>';
+            $alt = $unica
+                ? e('Jersey ' . $equipo)
+                : e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
+            $html = '<span class="imagen-producto imagen-producto--foto">'
+                . '<img src="' . e(url('assets/img/' . rawurlencode($archivo))) . '" alt="' . $alt . '" loading="lazy">';
+            if ($etiqueta !== '') {
+                $clase = $visitante ? 'visitante' : 'local';
+                $html .= '<span class="etiqueta-variante etiqueta-variante--' . $clase . '">' . e($etiqueta) . '</span>';
+            }
+            return $html . '</span>';
         }
     }
 
@@ -185,7 +191,13 @@ function imagen_producto(array $producto): string
     $equipoSeguro = e($equipo);
     $etiquetaSegura = e($etiqueta);
     $inicialSegura = e($inicial);
-    $aria = e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
+    $aria = $unica
+        ? e('Jersey ' . $equipo)
+        : e('Camiseta ' . $equipo . ', versión ' . strtolower($etiqueta));
+    $bloqueEtiqueta = $unica ? '' : <<<SVG
+  <rect x="126" y="292" width="148" height="28" rx="14" fill="{$colorEtiqueta}"/>
+  <text x="200" y="311" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="2" fill="{$colorEtiquetaTexto}">{$etiquetaSegura}</text>
+SVG;
 
     return <<<SVG
 <svg class="imagen-producto" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{$aria}">
@@ -201,8 +213,7 @@ function imagen_producto(array $producto): string
   <circle cx="200" cy="127" r="17" fill="{$franja}" stroke="{$colorTexto}" stroke-width="2"/>
   <text x="200" y="134" text-anchor="middle" font-size="16" font-weight="800" fill="{$colorFranjaTexto}">{$inicialSegura}</text>
   <text x="200" y="226" text-anchor="middle" font-size="{$tamanoEquipo}" font-weight="900" fill="{$colorTexto}">{$equipoSeguro}</text>
-  <rect x="126" y="292" width="148" height="28" rx="14" fill="{$colorEtiqueta}"/>
-  <text x="200" y="311" text-anchor="middle" font-size="15" font-weight="800" letter-spacing="2" fill="{$colorEtiquetaTexto}">{$etiquetaSegura}</text>
+{$bloqueEtiqueta}
 </svg>
 SVG;
 }

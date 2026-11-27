@@ -1,6 +1,6 @@
 <section class="hero">
   <div class="hero__contenido">
-    <p class="etiqueta">Fútbol · Kings League · Esports</p>
+    <p class="etiqueta">Fútbol · Esports</p>
     <h1>Tu equipo, <span>tu estilo</span>, tu jersey.</h1>
     <p class="hero__texto">Elige tu liga favorita, personaliza nombre y dorsal y recibe tu prenda en casa. Sin filas, sin complicaciones.</p>
     <div class="hero__acciones">
