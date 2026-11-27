@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 22:12
+> **Última actualización:** 2026-11-26 22:20
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -518,3 +518,25 @@ Formato para nuevas entradas:
 - **Artefactos:** commit `05082f8`, `origin/main`
 - **Responsable:** Agente de IA
 - **Acción derivada:** El registro de esta publicación se conserva en el commit siguiente; el repositorio queda sincronizado con GitHub.
+
+### 2026-11-26 22:18 — Compactación de la sesión de trabajo
+
+- **Tipo:** mantenimiento de la sesión / trazabilidad
+- **Descripción:** El usuario pidió liberar tokens de caché. Se aclaró que la caché de prompt del proveedor no se puede vaciar manualmente (solo caduca por TTL o se desactiva `warming`) y que la ventana de contexto sí se libera con compactación. El usuario eligió «Compactar sesión». Se ejecutó la compactación mediante la API de OpenCode; la respuesta confirmó la solicitud con el identificador `msg_21b3a35aa001LMaAPD1Ncz7ITD` para la sesión `ses_de76d5f91ffeyvFv9zR2tVXDoG`. El historial se conserva; solo se resumió la conversación antigua para liberar espacio en el contexto.
+- **Artefactos:** sesión `ses_de76d5f91ffeyvFv9zR2tVXDoG`, mensaje `msg_21b3a35aa001LMaAPD1Ncz7ITD`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Ninguna; la configuración de `warming` y el TTL del proveedor quedan sin cambios.
+
+### 2026-11-26 22:20 — Detención del servidor local de desarrollo
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 85 | 22:18 | Solicitar liberación de tokens y elegir compactación | Sesión resumida; historial conservado |
+| 86 | 22:20 | Identificar el proceso del servidor local en `127.0.0.1:8000` | PHP 8.4.28, PID 23832 |
+| 87 | 22:20 | Detener el servidor y comprobar el puerto | Proceso terminado; puerto 8000 libre |
+
+- **Tipo:** cierre de sesión / trazabilidad
+- **Descripción:** El usuario pidió finalizar la sesión junto con el servidor. Se identificó el proceso `php -S 127.0.0.1:8000 -t public public/index.php` (PID 23832), se detuvo y se verificó que el puerto 8000 quedó libre. La tarea en segundo plano del servidor finalizó con su registro de solicitudes HTTP. El código del proyecto sigue sin cambios pendientes y `main` continúa sincronizado con `origin/main` (`c5e61c5`, `05082f8`); esta única modificación de bitácora se publica a continuación.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Para volver a revisar el sitio en local, iniciar de nuevo `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto.
