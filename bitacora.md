@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-26 20:08
+> **Última actualización:** 2026-11-26 21:08
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -467,4 +467,23 @@ Formato para nuevas entradas:
 
 - **Tipo:** trazabilidad
 - **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Ninguna; página disponible en `http://127.0.0.1:8000`.
+
+### 2026-11-26 21:08 — Segundo reinicio del servidor local por vencimiento del temporizador
+- **Tipo:** incidencia técnica resuelta / verificación
+- **Descripción:** El servidor iniciado a las 20:08 con PID 14948 fue terminado automáticamente al cumplirse el plazo de 3600 segundos configurado en la tarea en segundo plano; el registro mostró tráfico normal de CSS, JS, imágenes y correos capturados hasta el momento del corte. Se reinició el servidor integrado de PHP con un plazo de 86400000 ms (24 horas) y quedó activo con PID 15224. Nueva verificación HTTP: `/`, `/health`, `/catalogo` y `/producto/4` devuelven 200; `/css/estilos.css` devuelve 200 `text/css`; `/assets/img/camiseta-america-local.jpg` devuelve 200 `image/jpeg`. No hubo cambios en el código de la aplicación.
+- **Artefactos:** servidor integrado en `http://127.0.0.1:8000`, PID 15224, `bitacora.md`
+- **Responsable:** Agente de IA
+- **Acción derivada:** Registrar el evento y subirlo; el servidor permanece activo durante 24 horas o hasta nueva orden.
+
+### 2026-11-26 21:08 — Registro cronológico de actividades de la sesión (parte 11)
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 76 | 21:08 | Detectar corte del servidor por vencimiento del temporizador | PID 14948 terminado con SIGTERM |
+| 77 | 21:08 | Reiniciar PHP con plazo de 24 horas | Servidor activo, PID 15224 |
+| 78 | 21:08 | Verificar rutas, CSS y foto real | Todas devuelven 200 con MIME correcto |
+
+- **Tipo:** trazabilidad
+- **Responsable:** Agente de IA
 - **Acción derivada:** Ninguna; página disponible en `http://127.0.0.1:8000`.
