@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 18:17
+> **Última actualización:** 2026-11-27 18:19
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -613,3 +613,17 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** El servidor seguirá activo hasta el 28 de noviembre aproximadamente a las 18:16; cuando venza, reiniciarlo con el mismo comando.
+
+### 2026-11-27 18:19 — Diagnóstico de visualización del catálogo
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 106 | 18:18 | Reportar que no se visualiza la página | Servidor activo, puerto 8000 en escucha y `/catalogo` con HTTP 200 |
+| 107 | 18:18 | Abrir y enfocar la pestaña del navegador integrado en `/catalogo` | 21 tarjetas, 0 imágenes rotas y 0 errores de consola |
+| 108 | 18:18 | Probar `127.0.0.1` y `localhost` desde la máquina | Ambos devuelven 200 en `/health` |
+
+- **Tipo:** soporte / entorno de desarrollo
+- **Descripción:** El usuario reportó que no podía visualizar la página. Se comprobó que el proceso PHP 27828 sigue activo, el puerto 8000 tiene conexión en estado `Listen` y `/catalogo` responde 200; `/health` responde 200 tanto por `127.0.0.1` como por `localhost`. Se abrió y enfocó la pestaña del navegador integrado en `http://127.0.0.1:8000/catalogo`: la página carga con 21 tarjetas, sin imágenes rotas ni errores de consola. La causa más probable es una pestaña anterior que quedó en el estado de «sitio no disponible» cuando se cerró el servidor a las 12:54, o un navegador externo/otro equipo desde el que `127.0.0.1` apunta a una máquina distinta. No se modificó código; el único artefacto nuevo es esta entrada.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Si la pestaña sigue mostrando el error, hacer recarga forzada (`Ctrl+Mayús+R`) o usar la pestaña integrada ya enfocada. Si se abre desde otro equipo, reemplazar `127.0.0.1` por la IP o el nombre de la máquina donde corre el servidor.
