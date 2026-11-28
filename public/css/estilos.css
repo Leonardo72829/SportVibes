@@ -171,6 +171,7 @@ img { max-width: 100%; }
 }
 .etiqueta-variante--local { background: var(--acento); color: #0d1408; }
 .etiqueta-variante--visitante { background: #5aa0ff; color: #081226; }
+.etiqueta-variante--esports { background: #00c8ff; color: #081226; }
 .tarjeta__cuerpo { padding: 1.1rem; display: flex; flex-direction: column; gap: .45rem; flex: 1; }
 .tarjeta__cuerpo h3 { margin: 0; font-size: 1.1rem; }
 .tarjeta__liga { color: var(--acento); font-size: .76rem; font-weight: 700; margin: 0; }

@@ -56,7 +56,7 @@ INSERT INTO productos (id, codigo_barras, nombre, descripcion, precio, costo, li
   (18, 'SV-SA-003', 'Camiseta AS Roma Local', 'Jersey local de la AS Roma, temporada 2026/27.', 949, 450, 5, 5, 1, 'camiseta-roma-local.webp', 'local'),
   (19, 'SV-BR-002', 'Camiseta Fluminense Local', 'Jersey local del Fluminense, temporada 2026.', 899, 420, 6, 6, 1, 'camiseta-fluminense-local.webp', 'local'),
   (20, 'SV-BR-003', 'Camiseta Palmeiras Visitante', 'Jersey visitante del Palmeiras, temporada 2026.', 899, 420, 6, 6, 1, 'camiseta-palmeiras-visitante.png', 'visitante'),
-  (21, 'SV-ES-003', 'Jersey T1 Esports', 'Jersey única de T1 Esports, temporada 2026.', 849, 380, 8, 8, 1, 'camiseta-t1-esports.png', 'unica') ON CONFLICT(codigo_barras) DO UPDATE SET nombre = excluded.nombre, descripcion = excluded.descripcion, imagen = excluded.imagen, variante = excluded.variante;
+  (21, 'SV-ES-003', 'Jersey Faze Clan', 'Jersey única de Faze Clan, temporada 2026.', 849, 380, 8, 8, 1, 'camiseta-faze-clan-esports.webp', 'unica') ON CONFLICT(codigo_barras) DO UPDATE SET nombre = excluded.nombre, descripcion = excluded.descripcion, imagen = excluded.imagen, variante = excluded.variante;
 
 -- Existencias por talla. Algunas tallas agotadas para probar la validación del RF-16.
 INSERT OR IGNORE INTO inventario (producto_id, talla_id, existencias) VALUES

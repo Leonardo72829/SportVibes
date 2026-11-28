@@ -2,7 +2,7 @@
 
 Las 21 playeras se guardan localmente en `public/assets/img/` y se sirven desde el proyecto; no se enlazan de forma remota. Todas tienen **fondo transparente** y muestran solo la prenda, dentro del mismo marco proporcional (`4 / 5` con `object-fit: contain`).
 
-El 2026-11-27 el usuario entregó la carpeta `Imagenes Sportvibes/` con 18 imágenes. Se copiaron a `public/assets/img/` con nombres normalizados y se conservaron las tres que ya servían (Liverpool, PSG e Inter). La carpeta original no se versiona; las copias normalizadas sí.
+El 2026-11-27 el usuario entregó la carpeta `Imagenes Sportvibes/` con 18 imágenes. Se copiaron a `public/assets/img/` con nombres normalizados y se conservaron las tres que ya servían (Liverpool, PSG e Inter). Después añadió `Faze Clan Esports.webp` para sustituir la jersey de T1, que no seguía los lineamientos de diseño. La carpeta original no se versiona; las copias normalizadas sí.
 
 | # | Producto | Liga | Variante | Archivo local | Origen |
 |---|---|---|---|---|---|
@@ -26,7 +26,7 @@ El 2026-11-27 el usuario entregó la carpeta `Imagenes Sportvibes/` con 18 imág
 | 18 | Camiseta AS Roma Local | Serie A | local | `camiseta-roma-local.webp` | Usuario: `Roma Local.webp` |
 | 19 | Camiseta Fluminense Local | Brasil A | local | `camiseta-fluminense-local.webp` | Usuario: `Fluminense Local.webp` |
 | 20 | Camiseta Palmeiras Visitante | Brasil A | visitante | `camiseta-palmeiras-visitante.png` | Usuario: `Palmeiras Visitante.png` |
-| 21 | Jersey T1 Esports | Esports | única | `camiseta-t1-esports.png` | Usuario: `T1 Esports.png` |
+| 21 | Jersey Faze Clan | Esports | única | `camiseta-faze-clan-esports.webp` | Usuario: `Faze Clan Esports.webp` |
 
 ## Validación aplicada
 
@@ -37,6 +37,6 @@ El 2026-11-27 el usuario entregó la carpeta `Imagenes Sportvibes/` con 18 imág
 
 ## Ligas de los equipos Esports
 
-Gen.G y T1 compiten en **LCK** (Corea del Sur); Leviatán compite en **CBLOL/LTA South** (América del Sur). En el catálogo de SportVibes los tres se agrupan en la liga comercial **Esports**, con una sola playera cada uno y sin etiqueta LOCAL/VISITANTE (`productos.variante = 'unica'`).
+Gen.G compite en **LCK** (Corea del Sur); Leviatán compite en **CBLOL/LTA South** (América del Sur); Faze Clan es una organización multijuego y su franquicia de Call of Duty compite en la **Call of Duty League** como FaZe Vegas. En el catálogo de SportVibes los tres se agrupan en la liga comercial **Esports**, con una sola playera cada uno (`productos.variante = 'unica'`) y la insignia **ESPORTS** en la esquina inferior derecha en lugar de LOCAL/VISITANTE.
 
 > Aviso: las imágenes de clubes y equipos pueden estar protegidas por derechos de autor. Se incluyen con fines de demostración académica del proyecto. Para uso comercial, sustitúyelas por imágenes propias o licenciadas y actualiza este archivo.

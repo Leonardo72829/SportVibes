@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 18:19
+> **Última actualización:** 2026-11-27 19:59
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -627,3 +627,19 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Si la pestaña sigue mostrando el error, hacer recarga forzada (`Ctrl+Mayús+R`) o usar la pestaña integrada ya enfocada. Si se abre desde otro equipo, reemplazar `127.0.0.1` por la IP o el nombre de la máquina donde corre el servidor.
+
+### 2026-11-27 19:59 — Faze Clan sustituye a T1 e insignia ESPORTS en las playeras de Esports
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 109 | 19:56 | Localizar `Faze Clan Esports.webp` en la carpeta entregada | Imagen nueva de 96 042 bytes |
+| 110 | 19:57 | Validar MIME, dimensiones, canal alfa y esquinas | WebP 1024×1024 con alfa VP8X; esquinas alfa 0 y centro 255 |
+| 111 | 19:57 | Copiar la imagen, actualizar el producto 21 y regenerar el export | `Jersey Faze Clan`, sin referencias activas a T1 |
+| 112 | 19:58 | Ajustar `imagen_producto()` y el CSS | Insignia ESPORTS en la esquina inferior derecha de los tres esports |
+| 113 | 19:59 | Verificar catálogo y detalle de producto | 21 tarjetas (13 LOCAL, 5 VISITANTE, 3 ESPORTS), 0 imágenes rotas y `/producto/21` con HTTP 200 |
+
+- **Tipo:** catálogo / imágenes / interfaz / base de datos / documentación
+- **Descripción:** El usuario pidió sustituir la jersey de T1 por la de Faze Clan, cuya imagen añadió a `Imagenes Sportvibes/`, porque la de T1 no seguía los lineamientos de diseño; también pidió que en las tres playeras de Esports aparezca la leyenda **ESPORTS** en la esquina inferior derecha en lugar de LOCAL/VISITANTE. Se validó `Faze Clan Esports.webp` con `finfo_file()` (`image/webp`), se confirmó el canal alfa en el encabezado VP8X y en un lienzo HTML que sus cuatro esquinas son transparentes y el centro de la prenda opaco, y se copió como `public/assets/img/camiseta-faze-clan-esports.webp`. Se actualizó el producto 21 en SQLite (nombre, descripción e imagen; código `SV-ES-003` y variante `unica` sin cambios), se retiró `camiseta-t1-esports.png`, se ajustaron `database/seed.sql` y `database/seed.sqlite.sql` y se regeneró `database/migracion_datos.sql` (no versionado). En `app/core/helpers.php` la variante `unica` ahora genera la insignia `ESPORTS` tanto para la foto como para el SVG de respaldo, con `alt` y `aria-label` acordes; en `public/css/estilos.css` se añadió `.etiqueta-variante--esports` con el mismo color cian usado en el diseño. Se documentó que Gen.G compite en LCK, Leviatán en CBLOL/LTA South y Faze Clan en la Call of Duty League (FaZe Vegas), agrupados comercialmente en Esports. Verificación: sintaxis PHP correcta, `/health`, `/catalogo` y `/producto/21` con HTTP 200, 21 tarjetas con 13 LOCAL, 5 VISITANTE y 3 ESPORTS, sin texto de T1, sin imágenes rotas y detalle de Faze Clan con insignia ESPORTS e imagen cargada.
+- **Artefactos:** `public/assets/img/camiseta-faze-clan-esports.webp`, `public/assets/img/camiseta-t1-esports.png` (eliminado), `database/seed.sql`, `database/seed.sqlite.sql`, `database/migracion_datos.sql`, `app/core/helpers.php`, `public/css/estilos.css`, `README.md`, `claude.md`, `docs/FUENTES_IMAGENES.md`, `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Publicar el cambio en `main`; pendientes el despliegue en VPS, credenciales SMTP reales y licencias de uso comercial de las imágenes.

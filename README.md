@@ -68,7 +68,7 @@ Abrir `http://127.0.0.1:8000`. `GET /health` devuelve un JSON con el estado de l
 
 ### Imágenes de producto
 
-Las 21 prendas del catálogo (tres equipos por liga) muestran su playera sobre fondo transparente, guardada en `public/assets/img/` como WebP o PNG con el mismo marco proporcional. Las prendas de fútbol llevan una insignia visible **LOCAL** o **VISITANTE** según `productos.variante`; los tres equipos de Esports (Gen.G, Leviatán y T1) usan una sola playera con variante `unica` y no muestran insignia. El nombre del archivo se guarda en `productos.imagen`. Las fotos, sus fuentes y la validación de transparencia están documentadas en `docs/FUENTES_IMAGENES.md`; para uso comercial deben sustituirse por imágenes propias o licenciadas.
+Las 21 prendas del catálogo (tres equipos por liga) muestran su playera sobre fondo transparente, guardada en `public/assets/img/` como WebP o PNG con el mismo marco proporcional. Las prendas de fútbol llevan una insignia visible **LOCAL** o **VISITANTE** según `productos.variante`; los tres equipos de Esports (Gen.G, Leviatán y Faze Clan) usan una sola playera con variante `unica` y muestran la insignia **ESPORTS** en la misma esquina inferior derecha. El nombre del archivo se guarda en `productos.imagen`. Las fotos, sus fuentes y la validación de transparencia están documentadas en `docs/FUENTES_IMAGENES.md`; para uso comercial deben sustituirse por imágenes propias o licenciadas.
 
 ### Cuentas de demostración
 
