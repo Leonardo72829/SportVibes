@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 12:54
+> **Última actualización:** 2026-11-27 18:17
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -599,3 +599,17 @@ Formato para nuevas entradas:
 - **Artefactos:** `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Para volver a revisar el sitio localmente, reiniciar con `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto. El sitio permanece apagado hasta nueva solicitud.
+
+### 2026-11-27 18:17 — Quinto reinicio del servidor local
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 103 | 18:16 | Solicitar levantar el servidor; comprobar puerto y procesos | Sin proceso `php -S` y sin `Listen` en 8000 |
+| 104 | 18:16 | Iniciar `php -S 127.0.0.1:8000 -t public public/index.php` en segundo plano | Proceso PHP real 27828, envoltorio 13416, plazo de 24 horas |
+| 105 | 18:16 | Verificar `/health`, `/catalogo`, `/producto/1` y `/producto/21` | Las cuatro rutas devuelven 200 |
+
+- **Tipo:** trazabilidad / entorno de desarrollo
+- **Descripción:** El usuario pidió levantar de nuevo el servidor después del cierre controlado de las 12:54. Se comprobó que no quedaba proceso PHP escuchando en el puerto 8000 y se inició `php -S 127.0.0.1:8000 -t public public/index.php` desde la raíz del proyecto, en segundo plano con un plazo de 24 horas. El proceso PHP real tiene PID 27828 y el envoltorio de la tarea PID 13416. Se verificó que `/health`, `/catalogo`, `/producto/1` y `/producto/21` responden con código 200; el sitio vuelve a estar disponible en `http://127.0.0.1:8000`. No se modificó código; el único artefacto nuevo es esta entrada.
+- **Artefactos:** `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** El servidor seguirá activo hasta el 28 de noviembre aproximadamente a las 18:16; cuando venza, reiniciarlo con el mismo comando.
