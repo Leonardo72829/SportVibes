@@ -2,7 +2,7 @@
 
 > Registro cronológico de avances, artefactos, decisiones y actividades realizadas.
 > **Fecha de creación del archivo:** 2026-11-26
-> **Última actualización:** 2026-11-27 19:59
+> **Última actualización:** 2026-11-27 20:05
 > Para memoria de equipo y preferencias técnicas, ver `claude.md`.
 
 ---
@@ -641,5 +641,19 @@ Formato para nuevas entradas:
 - **Tipo:** catálogo / imágenes / interfaz / base de datos / documentación
 - **Descripción:** El usuario pidió sustituir la jersey de T1 por la de Faze Clan, cuya imagen añadió a `Imagenes Sportvibes/`, porque la de T1 no seguía los lineamientos de diseño; también pidió que en las tres playeras de Esports aparezca la leyenda **ESPORTS** en la esquina inferior derecha en lugar de LOCAL/VISITANTE. Se validó `Faze Clan Esports.webp` con `finfo_file()` (`image/webp`), se confirmó el canal alfa en el encabezado VP8X y en un lienzo HTML que sus cuatro esquinas son transparentes y el centro de la prenda opaco, y se copió como `public/assets/img/camiseta-faze-clan-esports.webp`. Se actualizó el producto 21 en SQLite (nombre, descripción e imagen; código `SV-ES-003` y variante `unica` sin cambios), se retiró `camiseta-t1-esports.png`, se ajustaron `database/seed.sql` y `database/seed.sqlite.sql` y se regeneró `database/migracion_datos.sql` (no versionado). En `app/core/helpers.php` la variante `unica` ahora genera la insignia `ESPORTS` tanto para la foto como para el SVG de respaldo, con `alt` y `aria-label` acordes; en `public/css/estilos.css` se añadió `.etiqueta-variante--esports` con el mismo color cian usado en el diseño. Se documentó que Gen.G compite en LCK, Leviatán en CBLOL/LTA South y Faze Clan en la Call of Duty League (FaZe Vegas), agrupados comercialmente en Esports. Verificación: sintaxis PHP correcta, `/health`, `/catalogo` y `/producto/21` con HTTP 200, 21 tarjetas con 13 LOCAL, 5 VISITANTE y 3 ESPORTS, sin texto de T1, sin imágenes rotas y detalle de Faze Clan con insignia ESPORTS e imagen cargada.
 - **Artefactos:** `public/assets/img/camiseta-faze-clan-esports.webp`, `public/assets/img/camiseta-t1-esports.png` (eliminado), `database/seed.sql`, `database/seed.sqlite.sql`, `database/migracion_datos.sql`, `app/core/helpers.php`, `public/css/estilos.css`, `README.md`, `claude.md`, `docs/FUENTES_IMAGENES.md`, `bitacora.md`
+- **Responsable:** Usuario / Agente de IA
+- **Acción derivada:** Publicar el cambio en `main`; pendientes el despliegue en VPS, credenciales SMTP reales y licencias de uso comercial de las imágenes.
+
+### 2026-11-27 20:05 — Ajuste del encuadre de la camiseta de RC Lens Local
+
+| # | Hora | Actividad | Resultado |
+|---|---|---|---|
+| 114 | 20:03 | Medir los marcos de la fila de Ligue 1 en el catálogo | Lens medía 430.9 px de alto frente a 401.8 px de las demás |
+| 115 | 20:04 | Añadir `min-height: 0` a `.tarjeta__imagen`, `.imagen-producto` y `.imagen-producto--foto img` | La celda de Lens baja a 401.8 px y respeta `aspect-ratio: 4 / 5` |
+| 116 | 20:05 | Verificar catálogo y playera visible | Los 21 marcos miden 401.8 px; Lens queda en 282 × 382 px sin imágenes rotas |
+
+- **Tipo:** interfaz / catálogo
+- **Descripción:** El usuario reportó que la camiseta del RC Lens Local se sobresalía respecto a las demás playeras de su fila. Se comprobó en el navegador que el marco de esa tarjeta medía 430.9 px de alto, mientras que el resto medía 401.8 px: la imagen natural de Lens es más alta (`1475 × 2000`) y su contenido forzaba la fila de la cuadrícula pese a la proporción `4 / 5` definida. No se modificó el archivo de imagen; se ajustó `public/css/estilos.css` con `min-height: 0` en el contenedor, el envoltorio y la etiqueta `<img>` para que la celda pueda respetar su proporción y `object-fit: contain` reduzca la prenda de forma proporcional. Verificación: los 21 marcos del catálogo quedan con la misma altura (401.8 px), la imagen de Lens se muestra dentro del marco en 305.4 × 385 px con la playera visible en aproximadamente 282 × 382 px, y no hay imágenes rotas. El ajuste es general y evita que cualquier otra imagen muy alta vuelva a deformar su fila.
+- **Artefactos:** `public/css/estilos.css`, `bitacora.md`
 - **Responsable:** Usuario / Agente de IA
 - **Acción derivada:** Publicar el cambio en `main`; pendientes el despliegue en VPS, credenciales SMTP reales y licencias de uso comercial de las imágenes.
